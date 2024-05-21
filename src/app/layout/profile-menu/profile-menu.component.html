@@ -1,0 +1,35 @@
+<div
+  class="w-full h-screen surface-200 shadow-4 flex flex-column transition-ease-in-out transition-duration-500 align-items-center z-2 overflow-auto"
+>
+  <div class="w-9 md:w-full px-4 py-4 md:py-2">
+    <img
+      src="../../../assets/Logo clínica PASTEUR.png"
+      alt="logo-antuca"
+      class="w-full cursor-pointer"
+    />
+    @if (layoutService.isMobile()) {
+    <p-button
+      icon="pi pi-times"
+      severity="secondary"
+      [rounded]="true"
+      [outlined]="true"
+      styleClass="h-2rem w-2rem absolute top-0 right-0 mt-4 mr-4"
+    ></p-button>
+    }
+  </div>
+  <div class="w-full surface-200">
+    //Menu
+  </div>
+  @if(layoutService.isMobile()){
+  <div class="w-full my-2 px-2">
+    <p-button
+      severity="secondary"
+      [outlined]="true"
+      styleClass="w-full"
+      icon="pi pi-sign-out"
+      label="Cerrar sesión"
+    />
+  </div>
+  }
+</div>
+<p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>
