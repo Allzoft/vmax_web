@@ -1,12 +1,22 @@
 <div
-  class="w-full flex flex-column py-4 px-2 md:px-6 gap-3 md:gap-5"
+  class="hidden flex flex-column py-4 px-2 md:px-4 gap-3 md:gap-5"
   style="background-color: rgba(240, 238, 227, 0.63);"
+  [ngClass]="layoutService.isMobile() && layoutService.state.profileSidebarVisible ? 'w-0':'w-12'"
 >
   <div
     class="text-xl md:text-2xl font-bold w-full flex justify-content-between"
   >
     <span> Hola, Usuario </span>
-    <i class="pi pi-shopping-cart text-2xl text-primary mr-3"></i>
+    <div class="flex gap-2 align-items-center">
+      <i class="pi pi-shopping-cart text-xl md:text-2xl text-primary mr-3"></i>
+
+      <p-button
+        icon="pi pi-user"
+        styleClass="h-2rem w-2rem text-2xl mr-1 border-round-lg border-1 border-primary"
+        [outlined]="true"
+        (onClick)="layoutService.toggleProfile()"
+      />
+    </div>
   </div>
   <p-carousel
     [value]="carouselItems"
@@ -299,7 +309,7 @@
     [autoplayInterval]="10000"
     [showIndicators]="false"
     [showNavigators]="false"
-    [styleClass]="layoutService.isMobile() ? '-mt-2 mb-7' : '-mt-2'"
+    [styleClass]="layoutService.isMobile() ? '-mt-2 mb-6' : '-mt-2'"
   >
     <ng-template let-retreat pTemplate="item">
       <div
@@ -344,7 +354,9 @@
             <span class="text-primary">$</span>{{ retreat.amount.toFixed(2) }}
           </div>
           @if (layoutService.isMobile()) {
-          <div class="flex align-items-center justify-content-center mt-2 text-xs text-700">
+          <div
+            class="flex align-items-center justify-content-center mt-2 text-xs text-700"
+          >
             {{ retreat.date }}
           </div>
           }

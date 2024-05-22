@@ -17,6 +17,11 @@ import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
     RouterModule,
   ],
   templateUrl: './layout.component.html',
+  styles: `
+    .w-0: {
+      width: 0%
+    }
+  `
 })
 export default class LayoutComponent {
   public layoutService = inject(LayoutService);

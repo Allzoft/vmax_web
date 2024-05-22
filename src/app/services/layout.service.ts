@@ -24,7 +24,7 @@ export class LayoutService {
   state: LayoutState = {
     staticMenuDesktopInactive: false,
     overlayMenuActive: false,
-    profileSidebarVisible: false,
+    profileSidebarVisible: true,
     configSidebarVisible: false,
     staticMenuMobileActive: false,
     menuHoverActive: false,
@@ -47,6 +47,7 @@ export class LayoutService {
       debounceTime(300),
       tap((isMobile) => {
         this.isMobileValue = isMobile;
+        this.state.profileSidebarVisible = false;
       })
     );
 
@@ -55,6 +56,11 @@ export class LayoutService {
 
   isMobile(): boolean {
     return this.isMobileValue;
+  }
+
+  toggleProfile(): void {
+    this.state.profileSidebarVisible = !this.state.profileSidebarVisible;
+    console.log(this.state.profileSidebarVisible);
   }
 
   onMenuToggle() {

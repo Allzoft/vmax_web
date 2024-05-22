@@ -5,6 +5,7 @@ import { RatingModule } from 'primeng/rating';
 import { CarouselModule } from 'primeng/carousel';
 import { DividerModule } from 'primeng/divider';
 import { LayoutService } from '../../services/layout.service';
+import { ButtonModule } from 'primeng/button';
 
 export interface Products {
   name: string;
@@ -28,6 +29,7 @@ export interface CurrentRetreats {
     CommonModule,
     DividerModule,
     RatingModule,
+    ButtonModule,
     FormsModule,
     CarouselModule,
   ],
@@ -46,6 +48,11 @@ export interface CurrentRetreats {
     width: 2px;
     height: 2px;
   }
+
+  .w-0: {
+    width: 0%
+  }
+
 `,
 })
 export default class HomeComponent {

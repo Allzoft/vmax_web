@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { LayoutService } from '../../services/layout.service';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 
@@ -26,7 +26,12 @@ import { MenuModule } from 'primeng/menu';
   }
   `,
 })
-export class ProfileMenuComponent {
+export class ProfileMenuComponent implements OnInit {
   public confirmationService = inject(ConfirmationService);
   public layoutService = inject(LayoutService);
+
+  ngOnInit(): void {
+    console.log(this.layoutService.state.profileSidebarVisible);
+
+  }
 }

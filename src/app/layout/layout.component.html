@@ -1,10 +1,18 @@
-<div class="flex w-full">
+<div class="flex w-full fixed m-0 p-0">
   @if (!layoutService.isMobile()) {
-  <div class="flex w-3">
-    <app-side-menu />
+  <div class="w-2 overflow-auto">
+    <app-side-menu class="w-12 h-screen" />
   </div>
-  }
-  <div class="w-full flex flex-column">
+  } @if (!(layoutService.isMobile() &&
+  layoutService.state.profileSidebarVisible)) {
+  <div
+    class="h-screen overflow-auto flex flex-column transition-ease-in-out transition-duration-500"
+    [ngClass]="{
+      'w-12': layoutService.isMobile() && !layoutService.state.profileSidebarVisible,
+      'w-7': !layoutService.isMobile() && layoutService.state.profileSidebarVisible,
+      'w-10': !layoutService.isMobile() && !layoutService.state.profileSidebarVisible,
+    }"
+  >
     <router-outlet />
     @if (layoutService.isMobile()) {
     <div class="w-full fixed bottom-0">
@@ -12,9 +20,22 @@
     </div>
     }
   </div>
-  @if (!layoutService.isMobile()) {
-  <div style="width: 30%">
-    <app-profile-menu />
-  </div>
   }
+
+  <div
+    class="'surface-200 transition-ease-in-out transition-duration-500'"
+    [ngClass]="{
+      'hidden': !layoutService.state.profileSidebarVisible && !layoutService.isMobile() || !layoutService.state.profileSidebarVisible && layoutService.isMobile(),
+      'w-3': layoutService.state.profileSidebarVisible && !layoutService.isMobile(),
+      'w-12': layoutService.state.profileSidebarVisible && layoutService.isMobile()
+    }"
+  >
+    <app-profile-menu
+      [ngClass]="{
+      'hidden': !layoutService.state.profileSidebarVisible && !layoutService.isMobile() || !layoutService.state.profileSidebarVisible && layoutService.isMobile(),
+      'w-3': layoutService.state.profileSidebarVisible && !layoutService.isMobile(),
+      'w-12': layoutService.state.profileSidebarVisible && layoutService.isMobile()
+    }"
+    />
+  </div>
 </div>

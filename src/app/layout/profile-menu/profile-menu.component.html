@@ -1,5 +1,10 @@
 <div
-  class="w-18rem -ml-4 bg-white h-screen fixed shadow-2 align-self-end flex flex-column transition-ease-in-out transition-duration-500 align-items-center z-2 overflow-auto"
+  class="bg-white h-screen fixed shadow-2 align-self-end flex flex-column transition-ease-in-out transition-duration-500 align-items-center z-2 overflow-auto"
+  [ngClass]="{
+    'hidden': !layoutService.state.profileSidebarVisible && !layoutService.isMobile() || !layoutService.state.profileSidebarVisible && layoutService.isMobile(),
+    'w-3': layoutService.state.profileSidebarVisible && !layoutService.isMobile(),
+    'w-12': layoutService.state.profileSidebarVisible && layoutService.isMobile()
+  }"
 >
   <div
     class="w-full px-3 py-2 flex justify-content-between align-items-center mt-4"
@@ -24,8 +29,11 @@
         styleClass="h-2rem w-2rem"
       />
     </div>
-    <div class="w-3rem h-3rem bg-primary opacity-80 border-round-lg align-items-center flex justify-content-center">
-     <i class="pi pi-user text-2xl text-white"></i>
+    <div
+    (click)="layoutService.state.profileSidebarVisible=false"
+      class="w-3rem cursor-pointer h-3rem bg-primary opacity-80 border-round-lg align-items-center flex justify-content-center"
+    >
+      <i class="pi pi-user text-2xl text-white"></i>
     </div>
   </div>
   <div class="w-full flex flex-column gap-3 px-3 mt-2">
@@ -54,11 +62,11 @@
         />
       </div>
       <div
-        style="margin-bottom: -6rem"
+        style="margin-bottom: -6rem;"
         class="absolute bottom-0 left-0 w-10rem h-10rem bg-green-300 opacity-30 border-circle"
       ></div>
       <div
-        style="margin-left: -6rem"
+        style="margin-left: -6rem;"
         class="absolute bottom-0 left-0 w-10rem h-10rem bg-orange-500 opacity-30 border-circle"
       ></div>
     </div>
