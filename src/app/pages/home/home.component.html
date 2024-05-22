@@ -1,6 +1,6 @@
 <div
   class="w-full flex flex-column py-4 px-2 md:px-6 gap-3 md:gap-5"
-  style="background-color: rgba(240, 238, 227, 0.63)"
+  style="background-color: rgba(240, 238, 227, 0.63);"
 >
   <div
     class="text-xl md:text-2xl font-bold w-full flex justify-content-between"
@@ -21,7 +21,7 @@
       <div
         class="relative w-full overflow-hidden bg-primary h-10rem border-round-lg flex flex-column p-5"
       >
-        <div class="text-white md:text-2xl font-semibold">
+        <div class="text-white text-xl md:text-2xl font-semibold">
           Consigue tus descuentos <br />
           por comisión
         </div>
@@ -44,14 +44,14 @@
         </div>
 
         <div
-          style="margin-top: -8rem; margin-right: 10rem"
+          style="margin-top: -8rem; margin-right: 10rem;"
           class="absolute top-0 right-0 w-12rem h-12rem flex align-items-center justify-content-center bg-white opacity-30 border-circle"
         >
           <div class="w-8rem h-8rem border-circle bg-primary"></div>
         </div>
 
         <div
-          style="margin-bottom: -5rem; margin-right: -4rem"
+          style="margin-bottom: -5rem; margin-right: -4rem;"
           class="absolute bottom-0 right-0 w-11rem h-11rem flex align-items-center justify-content-center bg-white opacity-30 border-circle"
         >
           <div class="w-8rem h-8rem border-circle bg-primary"></div>
@@ -64,14 +64,21 @@
       </div>
       } @if (product===2) {
       <div
-        class="relative w-full border-1 border-200 overflow-hidden bg-white align-items-end text-right h-10rem border-round-lg flex flex-column p-5"
+        class="relative w-full border-1 border-200 overflow-hidden bg-white align-items-end text-right h-10rem border-round-lg flex flex-column py-4 px-3 md:p-5"
       >
+        @if (layoutService.isMobile()) {
+        <div class="text-xl font-semibold">
+          Sale a la venta la versión <br />
+          en blanco y negro de la PS5.
+        </div>
+        } @else {
         <div class="text-2xl font-semibold">
           Sale a la venta la versión en blanco <br />
           y negro de la PS5.
         </div>
-        <div class="flex gap-2 align-items-center mt-2">
-          <span class="">Para Usuarios</span>
+        }
+        <div class="flex gap-2 align-items-center mt-6 md:mt-2">
+          <span class="font-semibold -mt-1 md:mt-0">Para Usuarios</span>
           <div
             class="text-white bg-red-500 w-5rem py-1 border-round-lg text-center text-sm font-semibold z-2"
           >
@@ -86,7 +93,7 @@
         </div>
 
         <div
-          style="margin-bottom: -8rem"
+          style="margin-bottom: -8rem;"
           class="absolute bottom-0 -mr-8 right-50 w-12rem h-12rem flex align-items-center justify-content-center surface-900 opacity-30"
         >
           <div class="w-8rem h-8rem bg-white"></div>
@@ -95,14 +102,14 @@
         <img
           src="../../../assets/image-banner3.png"
           alt="image-banner"
-          class="absolute bottom-0 left-0 ml-8 w-9rem"
+          class="absolute bottom-0 left-0 -ml-3 md:ml-8 w-9rem"
         />
       </div>
       } @if (product === 3) {
       <div
         class="relative w-full overflow-hidden bg-black-alpha-90 h-10rem border-round-lg flex flex-column p-5"
       >
-        <div class="text-white text-2xl font-semibold">
+        <div class="text-white text-xl md:text-2xl font-semibold">
           Mejore su experiencia musical
         </div>
         <div class="flex gap-2 align-items-center mt-2">
@@ -209,71 +216,79 @@
         <img
           src="../../../assets/image-banner2.png"
           alt="image-banner"
-          class="absolute bottom-0 right-0 mr-8 mb-3 w-13rem"
+          class="absolute bottom-0 right-0 md:mr-8 -mr-6 -mb-5 md:mb-3 w-13rem"
         />
       </div>
 
       }
     </ng-template>
   </p-carousel>
-  <div class="text-lg font-semibold -mt-3">
+  <div class="md:text-lg font-semibold -mt-3">
     Artículos con mayores incentivos de comisión
   </div>
-  <div class="w-full flex gap-2 -mt-3">
+  <div class="w-full flex flex-wrap -mt-3">
     @for (product of productsA; track product; let i = $index) {
-    <div
-      class="border-round-sm pt-2 cursor-pointer hover:shadow-2 bg-white w-full flex flex-column align-items-center"
-    >
-      <div class="flex w-full justify-content-between">
-        <div class="bg-red-400 border-round-right text-white px-2 py-1 text-xs">
-          {{ product.commission + "% Comisión" }}
-        </div>
-        <i class="pi pi-heart-fill text-300 text-sm mr-2 mt-1"></i>
-      </div>
-      <img
-        [src]="'../../../assets/products/' + product.photo"
-        [alt]="product.name"
-        [class]="i === 1 ? 'h-5rem my-2' : 'h-6rem'"
-      />
-      <p-rating [(ngModel)]="product.rating" [readonly]="true" [cancel]="false"
-      iconOnClass= />
-      <span class="text-xs my-1">{{ product.name }}</span>
-      <span class="text-sm mb-2 gap-1 flex font-bold"
-        ><span class="text-primary">$</span
-        ><span>{{ product.price.toFixed(2) }}</span></span
+    <div class="col-6 md:col-3">
+      <div
+        class="border-round-sm pt-2 cursor-pointer hover:shadow-2 bg-white w-full flex flex-column align-items-center"
       >
+        <div class="flex w-full justify-content-between">
+          <div
+            class="bg-red-400 border-round-right text-white px-2 py-1 text-xs"
+          >
+            {{ product.commission + "% Comisión" }}
+          </div>
+          <i class="pi pi-heart-fill text-300 text-sm mr-2 mt-1"></i>
+        </div>
+        <img
+          [src]="'../../../assets/products/' + product.photo"
+          [alt]="product.name"
+          [class]="i === 1 ? 'h-5rem my-2' : 'h-6rem'"
+        />
+        <p-rating [(ngModel)]="product.rating" [readonly]="true"
+        [cancel]="false" iconOnClass= />
+        <span class="text-xs my-1">{{ product.name }}</span>
+        <span class="text-sm mb-2 gap-1 flex font-bold"
+          ><span class="text-primary">$</span
+          ><span>{{ product.price.toFixed(2) }}</span></span
+        >
+      </div>
     </div>
     }
   </div>
 
-  <div class="text-lg font-semibold">Artículos con mayor valoración</div>
-  <div class="w-full flex gap-2 -mt-3">
+  <div class="md:text-lg font-semibold">Artículos con mayor valoración</div>
+  <div class="w-full flex flex-wrap -mt-3">
     @for (product of productsB; track product; let i = $index) {
-    <div
-      class="border-round-sm pt-2 cursor-pointer hover:shadow-2 bg-white w-full flex flex-column align-items-center"
-    >
-      <div class="flex w-full justify-content-between">
-        <div class="bg-red-400 border-round-right text-white px-2 py-1 text-xs">
-          {{ product.commission + "% Comisión" }}
-        </div>
-        <i class="pi pi-heart-fill text-300 text-sm mr-2 mt-1"></i>
-      </div>
-      <img
-        [src]="'../../../assets/products/' + product.photo"
-        [alt]="product.name"
-        [class]="i === 1 ? 'h-5rem my-2' : 'h-6rem'"
-      />
-      <p-rating [(ngModel)]="product.rating" [readonly]="true" [cancel]="false"
-      iconOnClass= />
-      <span class="text-xs my-1">{{ product.name }}</span>
-      <span class="text-sm mb-2 gap-1 flex font-bold"
-        ><span class="text-primary">$</span
-        ><span>{{ product.price.toFixed(2) }}</span></span
+    <div class="col-6 md:col-3">
+      <div
+        class="border-round-sm pt-2 cursor-pointer hover:shadow-2 bg-white w-full flex flex-column align-items-center"
       >
+        <div class="flex w-full justify-content-between">
+          <div
+            class="bg-red-400 border-round-right text-white px-2 py-1 text-xs"
+          >
+            {{ product.commission + "% Comisión" }}
+          </div>
+          <i class="pi pi-heart-fill text-300 text-sm mr-2 mt-1"></i>
+        </div>
+        <img
+          [src]="'../../../assets/products/' + product.photo"
+          [alt]="product.name"
+          [class]="i === 2 ? 'h-5rem my-2' : 'h-6rem'"
+        />
+        <p-rating [(ngModel)]="product.rating" [readonly]="true"
+        [cancel]="false" iconOnClass= />
+        <span class="text-xs my-1">{{ product.name }}</span>
+        <span class="text-sm mb-2 gap-1 flex font-bold"
+          ><span class="text-primary">$</span
+          ><span>{{ product.price.toFixed(2) }}</span></span
+        >
+      </div>
     </div>
     }
   </div>
-  <div class="text-lg font-semibold">
+  <div class="md:text-lg font-semibold">
     Últimas operaciones de pago para usuarios
   </div>
   <p-carousel
@@ -284,7 +299,7 @@
     [autoplayInterval]="10000"
     [showIndicators]="false"
     [showNavigators]="false"
-    styleClass="-mt-2"
+    [styleClass]="layoutService.isMobile() ? '-mt-2 mb-7' : '-mt-2'"
   >
     <ng-template let-retreat pTemplate="item">
       <div
@@ -297,42 +312,49 @@
             class="pi pi-check text-white text-base origin-left -rotate-45 mr-3 mt-6"
           ></i>
         </div>
-        <div class="w-full flex flex-column gap-2 justify-content-center px-6">
+        <div
+          class="w-full flex flex-column gap-2 justify-content-center px-4 md:px-6"
+        >
           <div class="flex gap-2 align-items-center">
             <span>{{ "Retiro por: " }}</span>
             @if ( retreat.acount_name === 'Skrill') {
-            <span class="text-white bg-red-400 py-1 px-2 border-round-lg">{{
-              retreat.acount_name
-            }}</span>
+            <span class="text-white bg-red-400 py-1 px-2 border-round-lg"
+              >{{ retreat.acount_name }}</span
+            >
             } @if ( retreat.acount_name === 'Uphold') {
-            <span class="text-white bg-green-400 py-1 px-2 border-round-lg">{{
-              retreat.acount_name
-            }}</span
+            <span class="text-white bg-green-400 py-1 px-2 border-round-lg"
+              >{{ retreat.acount_name }}</span
             >} @if ( retreat.acount_name === 'Airtm') {
-            <span class="text-white bg-blue-400 py-1 px-2 border-round-lg">{{
-              retreat.acount_name
-            }}</span
+            <span class="text-white bg-blue-400 py-1 px-2 border-round-lg"
+              >{{ retreat.acount_name }}</span
             >} @if ( retreat.acount_name === 'Binance') {
-            <span class="text-white bg-yellow-400 py-1 px-2 border-round-lg">{{
-              retreat.acount_name
-            }}</span
+            <span class="text-white bg-yellow-400 py-1 px-2 border-round-lg"
+              >{{ retreat.acount_name }}</span
             >} @if ( retreat.acount_name === 'AdvCash') {
-            <span class="text-white bg-green-600 py-1 px-2 border-round-lg">{{
-              retreat.acount_name
-            }}</span
+            <span class="text-white bg-green-600 py-1 px-2 border-round-lg"
+              >{{ retreat.acount_name }}</span
             >}
           </div>
           <div class="tet-sm text-600">{{ retreat.account_numb }}</div>
         </div>
         <div
-          class="col-3 flex align-items-center font-semibold justify-content-center"
+          class="col-5 md:col-3 flex align-items-center font-semibold flex-column justify-content-center"
         >
-          <span class="text-primary">$ </span>{{ retreat.amount }}
+          <div class="flex gap-1 md:gap-2 align-items-center">
+            <span class="text-primary">$</span>{{ retreat.amount.toFixed(2) }}
+          </div>
+          @if (layoutService.isMobile()) {
+          <div class="flex align-items-center justify-content-center mt-2 text-xs text-700">
+            {{ retreat.date }}
+          </div>
+          }
         </div>
+        @if (!layoutService.isMobile()) {
         <p-divider layout="vertical" />
         <div class="col-3 flex align-items-center justify-content-center">
           {{ retreat.date }}
         </div>
+        }
       </div>
     </ng-template>
   </p-carousel>
