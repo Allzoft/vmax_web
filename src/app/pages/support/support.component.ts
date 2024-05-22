@@ -9,4 +9,4 @@ import { Component } from '@angular/core';
   ],
   templateUrl: './support.component.html',
 })
-export class SupportComponent { }
+export default class SupportComponent { }

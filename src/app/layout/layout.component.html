@@ -13,6 +13,7 @@
       'w-10': !layoutService.isMobile() && !layoutService.state.profileSidebarVisible,
     }"
   >
+    <app-top-bar />
     <router-outlet />
     @if (layoutService.isMobile()) {
     <div class="w-full fixed bottom-0">

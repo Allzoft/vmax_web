@@ -7,6 +7,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MenuModule } from 'primeng/menu';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-side-menu',
@@ -31,4 +32,9 @@ import { MenuModule } from 'primeng/menu';
 export class SideMenuComponent {
   public confirmationService = inject(ConfirmationService);
   public layoutService = inject(LayoutService);
+  public router = inject(Router);
+
+  public redirectTo(path: string) {
+    this.router.navigateByUrl(path);
+  }
 }
