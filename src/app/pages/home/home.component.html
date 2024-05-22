@@ -2,44 +2,211 @@
   class="w-full flex flex-column py-4 px-6 gap-5"
   style="background-color: rgba(240, 238, 227, 0.63)"
 >
-  <div class="text-2xl font-bold">Hola, Usuario</div>
-  <div
-    class="relative overflow-hidden bg-primary h-10rem border-round-lg flex flex-column p-5"
-  >
-    <div class="text-white text-2xl font-semibold">
-      Consigue tus descuentos <br />
-      por comisión
-    </div>
-    <div class="text-white text-sm mt-4 font-semibold z-2">
-      Descubre las ofertas exclusivas para socios en línea hoy mismo
-    </div>
-
-    <div
-      class="absolute bottom-0 -mb-8 left-0 -ml-4 w-10rem h-10rem flex align-items-center justify-content-center bg-white opacity-30 border-circle"
-    >
-      <div class="w-6rem h-6rem border-circle bg-primary"></div>
-    </div>
-
-    <div
-      style="margin-top: -8rem; margin-right: 10rem"
-      class="absolute top-0 right-0 w-12rem h-12rem flex align-items-center justify-content-center bg-white opacity-30 border-circle"
-    >
-      <div class="w-8rem h-8rem border-circle bg-primary"></div>
-    </div>
-
-    <div
-      style="margin-bottom: -5rem; margin-right: -4rem"
-      class="absolute bottom-0 right-0 w-11rem h-11rem flex align-items-center justify-content-center bg-white opacity-30 border-circle"
-    >
-      <div class="w-8rem h-8rem border-circle bg-primary"></div>
-    </div>
-    <img
-      src="../../../assets/image-banner.png"
-      alt="image-banner"
-      class="absolute bottom-0 right-0 mr-8 w-15rem"
-    />
+  <div class="text-2xl font-bold w-full flex justify-content-between">
+    <span> Hola, Usuario </span>
+    <i class="pi pi-shopping-cart text-2xl text-primary mr-3"></i>
   </div>
-  <div class="text-lg font-semibold">
+  <p-carousel
+    [value]="carouselItems"
+    [numVisible]="1"
+    [numScroll]="1"
+    [autoplayInterval]="3000"
+    [showNavigators]="false"
+    verticalViewPortHeight="360px"
+  >
+    <ng-template let-product pTemplate="item">
+      @if (product === 1) {
+      <div
+        class="relative overflow-hidden bg-primary h-10rem border-round-lg flex flex-column p-5"
+      >
+        <div class="text-white text-2xl font-semibold">
+          Consigue tus descuentos <br />
+          por comisión
+        </div>
+        <div class="text-white text-sm mt-4 font-semibold z-2">
+          Descubre las ofertas exclusivas para socios en línea hoy mismo
+        </div>
+
+        <div
+          class="absolute bottom-0 -mb-8 left-0 -ml-4 w-10rem h-10rem flex align-items-center justify-content-center bg-white opacity-30 border-circle"
+        >
+          <div class="w-6rem h-6rem border-circle bg-primary"></div>
+        </div>
+
+        <div
+          style="margin-top: -8rem; margin-right: 10rem"
+          class="absolute top-0 right-0 w-12rem h-12rem flex align-items-center justify-content-center bg-white opacity-30 border-circle"
+        >
+          <div class="w-8rem h-8rem border-circle bg-primary"></div>
+        </div>
+
+        <div
+          style="margin-bottom: -5rem; margin-right: -4rem"
+          class="absolute bottom-0 right-0 w-11rem h-11rem flex align-items-center justify-content-center bg-white opacity-30 border-circle"
+        >
+          <div class="w-8rem h-8rem border-circle bg-primary"></div>
+        </div>
+        <img
+          src="../../../assets/image-banner.png"
+          alt="image-banner"
+          class="absolute bottom-0 right-0 mr-8 w-15rem"
+        />
+      </div>
+      } @if (product===2) {
+      <div
+        class="relative border-1 border-200 overflow-hidden bg-white align-items-end text-right h-10rem border-round-lg flex flex-column p-5"
+      >
+        <div class="text-2xl font-semibold">
+          Sale a la venta la versión en blanco <br />
+          y negro de la PS5.
+        </div>
+        <div class="flex gap-2 align-items-center mt-2">
+          <span class="">Para Usuarios</span>
+          <div
+            class="text-white bg-red-500 w-5rem py-1 border-round-lg text-center text-sm font-semibold z-2"
+          >
+            VIP 3
+          </div>
+        </div>
+
+        <div
+          class="absolute bottom-0 -mb-8 left-0 -ml-6 w-10rem h-10rem origin-top-right rotate-45 flex align-items-center justify-content-center surface-900 opacity-30"
+        >
+          <div class="w-6rem h-6rem bg-white"></div>
+        </div>
+
+        <div
+          style="margin-bottom: -8rem"
+          class="absolute bottom-0 -mr-8 right-50 w-12rem h-12rem flex align-items-center justify-content-center surface-900 opacity-30"
+        >
+          <div class="w-8rem h-8rem bg-white"></div>
+        </div>
+
+        <img
+          src="../../../assets/image-banner3.png"
+          alt="image-banner"
+          class="absolute bottom-0 left-0 ml-8 w-9rem"
+        />
+      </div>
+      } @if (product === 3) {
+      <div
+        class="relative overflow-hidden bg-black-alpha-90 h-10rem border-round-lg flex flex-column p-5"
+      >
+        <div class="text-white text-2xl font-semibold">
+          Mejore su experiencia musical
+        </div>
+        <div class="flex gap-2 align-items-center mt-2">
+          <span class="text-white">Para Usuarios</span>
+          <div
+            class="text-white bg-red-500 w-5rem py-1 border-round-lg text-center text-sm font-semibold z-2"
+          >
+            VIP 2
+          </div>
+        </div>
+
+        <div class="flex flex-column gap-1 mb-3 ml-5 absolute bottom-0 left-0">
+          <div class="flex gap-1">
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+          </div>
+          <div class="flex gap-1">
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+          </div>
+          <div class="flex gap-1">
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+          </div>
+          <div class="flex gap-1">
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+          </div>
+          <div class="flex gap-1">
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+          </div>
+          <div class="flex gap-1">
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+            <div class="dot bg-white"></div>
+          </div>
+        </div>
+
+        <img
+          src="../../../assets/image-banner2.png"
+          alt="image-banner"
+          class="absolute bottom-0 right-0 mr-8 mb-3 w-13rem"
+        />
+      </div>
+
+      }
+    </ng-template>
+  </p-carousel>
+  <div class="text-lg font-semibold -mt-3">
     Artículos con mayores incentivos de comisión
   </div>
   <div class="w-full flex gap-2 -mt-3">
@@ -96,5 +263,66 @@
     </div>
     }
   </div>
-  <div class="text-lg font-semibold">Pagos recientes a usuarios</div>
+  <div class="text-lg font-semibold">Últimas operaciones de pago para usuarios</div>
+  <p-carousel
+    [value]="currentRetreats"
+    [numVisible]="3"
+    [numScroll]="1"
+    orientation="vertical"
+    [autoplayInterval]="10000"
+    [showIndicators]="false"
+    [showNavigators]="false"
+    styleClass="-mt-2"
+  >
+    <ng-template let-retreat pTemplate="item">
+      <div
+        class="relative w-full flex h-6rem border-1 bg-white overflow-hidden border-200 border-round-lg"
+      >
+      <div
+      class="absolute bottom-0 right-0 bg-primary w-3rem h-6rem origin-bottom-left rotate-45 flex align-items-center justify-content-center"
+    
+    >
+      <i
+        class="pi pi-check text-white text-base origin-left -rotate-45 mr-3 mt-6"
+      ></i>
+    </div>
+        <div class="w-full flex flex-column gap-2 justify-content-center px-6">
+          <div class="flex gap-2 align-items-center">
+            <span>{{ "Retiro por: " }}</span>
+            @if ( retreat.acount_name === 'Skrill') {
+            <span class="text-white bg-red-400 py-1 px-2 border-round-lg">{{
+              retreat.acount_name
+            }}</span>
+            } @if ( retreat.acount_name === 'Uphold') {
+            <span class="text-white bg-green-400 py-1 px-2 border-round-lg">{{
+              retreat.acount_name
+            }}</span
+            >} @if ( retreat.acount_name === 'Airtm') {
+            <span class="text-white bg-blue-400 py-1 px-2 border-round-lg">{{
+              retreat.acount_name
+            }}</span
+            >} @if ( retreat.acount_name === 'Binance') {
+            <span class="text-white bg-yellow-400 py-1 px-2 border-round-lg">{{
+              retreat.acount_name
+            }}</span
+            >} @if ( retreat.acount_name === 'AdvCash') {
+            <span class="text-white bg-green-600 py-1 px-2 border-round-lg">{{
+              retreat.acount_name
+            }}</span
+            >}
+          </div>
+          <div class="tet-sm text-600">{{ retreat.account_numb }}</div>
+        </div>
+        <div
+          class="col-3 flex align-items-center font-semibold justify-content-center"
+        >
+          <span class="text-primary">$ </span>{{ retreat.amount }}
+        </div>
+        <p-divider layout="vertical" />
+        <div class="col-3 flex align-items-center justify-content-center">
+          {{ retreat.date }}
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
 </div>
