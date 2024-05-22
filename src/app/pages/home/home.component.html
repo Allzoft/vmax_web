@@ -10,7 +10,7 @@
       Consigue tus descuentos <br />
       por comisión
     </div>
-    <div class="text-white text-sm mt-4 font-semibold">
+    <div class="text-white text-sm mt-4 font-semibold z-2">
       Descubre las ofertas exclusivas para socios en línea hoy mismo
     </div>
 
@@ -63,7 +63,7 @@
       <span class="text-xs my-1">{{ product.name }}</span>
       <span class="text-sm mb-2 gap-1 flex font-bold"
         ><span class="text-primary">$</span
-        ><span>{{ product.price }}</span></span
+        ><span>{{ product.price.toFixed(2) }}</span></span
       >
     </div>
     }
@@ -91,7 +91,7 @@
       <span class="text-xs my-1">{{ product.name }}</span>
       <span class="text-sm mb-2 gap-1 flex font-bold"
         ><span class="text-primary">$</span
-        ><span>{{ product.price }}</span></span
+        ><span>{{ product.price.toFixed(2) }}</span></span
       >
     </div>
     }

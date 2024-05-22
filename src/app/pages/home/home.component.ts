@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RatingModule } from 'primeng/rating';
+import { CarouselModule } from 'primeng/carousel';
 
 export interface Products {
   name: string;
@@ -14,7 +15,7 @@ export interface Products {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RatingModule, FormsModule],
+  imports: [CommonModule, RatingModule, FormsModule,CarouselModule],
   templateUrl: './home.component.html',
 })
 export default class HomeComponent {
@@ -31,7 +32,7 @@ export default class HomeComponent {
       photo: 'p2.png',
       commission: 25,
       rating: 3.8,
-      price: 960.50,
+      price: 56.50,
     },
     {
       name: 'IPS LCD Gaming Monitor',

@@ -4,11 +4,34 @@
   <div
     class="w-full px-3 py-2 flex justify-content-between align-items-center mt-4"
   >
-    <div class="text-sm">User: 468FAF46ACC5</div>
-    <div class="w-3rem h-3rem surface-200 border-round-lg"></div>
+    <div class="flex gap-2 align-items-center">
+      <p-button
+        severity="secondary"
+        icon="pi pi-user-plus font-semibold text-900 text-lg"
+        [text]="true"
+        styleClass="h-2rem w-2rem"
+      />
+      <p-button
+        severity="secondary"
+        icon="pi pi-bell font-semibold text-900 text-lg"
+        [text]="true"
+        styleClass="h-2rem w-2rem"
+      />
+      <p-button
+        severity="secondary"
+        icon="pi pi-cog font-semibold text-900 text-lg"
+        [text]="true"
+        styleClass="h-2rem w-2rem"
+      />
+    </div>
+    <div class="w-3rem h-3rem bg-primary opacity-80 border-round-lg align-items-center flex justify-content-center">
+     <i class="pi pi-user text-2xl text-white"></i>
+    </div>
   </div>
   <div class="w-full flex flex-column gap-3 px-3 mt-2">
-    <div class="font-bold text-xl"><i class="pi pi-wallet mr-2 text-xl font-semibold"></i>Tu balance</div>
+    <div class="font-bold text-xl">
+      <i class="pi pi-wallet mr-2 text-xl font-semibold"></i>Tu balance
+    </div>
     <div
       class="relative w-full border-round-xl justify-content-between align-items-center overflow-hidden bg-primary h-8rem flex gap-2 px-4"
     >
@@ -38,33 +61,62 @@
         style="margin-left: -6rem"
         class="absolute bottom-0 left-0 w-10rem h-10rem bg-orange-500 opacity-30 border-circle"
       ></div>
-      <div class="absolute top-0 right-0 mt-3 mr-3 flex flex-column gap-1">
-        <div class="flex gap-1">
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-        </div>
-        <div class="flex gap-1">
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-        </div>
-        <div class="flex gap-1">
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-        </div>
-        <div class="flex gap-1">
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
-          <div class="bg-white dot-card border-circle"></div>
+    </div>
+  </div>
+  <div class="flex flex-column my-3 w-full px-3">
+    <div class="font-bold">Tareas recientes:</div>
+    <div class="w-full flex gap-3 align-items-center mt-3">
+      <i class="pi pi-circle text-3xl text-400"></i>
+      <div class="flex w-full flex-column gap-1 pr-2">
+        <div class="text-xxs">Subscripción a cuenta de skrill</div>
+        <div class="flex w-full justify-content-between gap-2">
+          <div class="text-xxs text-500">En Proceso</div>
+          <div class="text-xs font-semibold">
+            +<span class="text-primary">$</span>10
+          </div>
         </div>
       </div>
     </div>
+    <div class="w-full flex gap-3 align-items-center mt-3">
+      <i class="pi pi-check-circle text-3xl text-green-400"></i>
+      <div class="flex w-full flex-column gap-1 pr-2">
+        <div class="text-xxs">Recomendación en google maps</div>
+        <div class="flex w-full justify-content-between gap-2">
+          <div class="text-xxs text-500">Completada</div>
+          <div class="text-xs font-semibold">
+            +<span class="text-primary">$</span>10
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full flex gap-3 align-items-center mt-3">
+      <i class="pi pi-check-circle text-3xl text-green-400"></i>
+      <div class="flex w-full flex-column gap-1 pr-2">
+        <div class="text-xxs">Subscripción a página de Youtube</div>
+        <div class="flex w-full justify-content-between gap-2">
+          <div class="text-xxs text-500">Completada</div>
+          <div class="text-xs font-semibold">
+            +<span class="text-primary">$</span>10
+          </div>
+        </div>
+      </div>
+    </div>
+    <p-divider />
+    <div class="font-bold flex justify-content-between w-full">
+      <span>Fase-2</span>
+      <span class="text-sm font-medium"
+        ><span class="text-primary">6</span>/12</span
+      >
+    </div>
+  </div>
+  <div class="px-3 w-full flex flex-column gap-3 mt-3">
+    <p-button
+      [outlined]="true"
+      icon="pi pi-ticket"
+      styleClass="w-full text-sm"
+      label="¿Tienes un cupón?"
+    />
+    <p-button styleClass="w-full text-sm" label="Cerrar sesión" />
   </div>
 </div>
 <p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>
