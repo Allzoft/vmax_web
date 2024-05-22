@@ -25,7 +25,7 @@
   <div class="w-full flex flex-column gap-3 px-3 mt-5 w-">
     <div
       (click)="redirectTo('home')"
-      [ngClass]="this.router.url.includes('home') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
+      [ngClass]="router.url.includes('home') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
       class="w-full cursor-pointer border-round-xl h-3rem flex align-items-center gap-3 pl-4"
     >
       <i class="pi pi-home font-medium"></i>
@@ -33,7 +33,7 @@
     </div>
     <div
       (click)="redirectTo('orders-list')"
-      [ngClass]="this.router.url.includes('orders-list') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
+      [ngClass]="router.url.includes('orders-list') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
       class="w-full cursor-pointer border-round-xl h-3rem flex align-items-center gap-3 pl-4"
     >
       <i class="pi pi-megaphone font-medium"></i>
@@ -41,7 +41,7 @@
     </div>
     <div
       (click)="redirectTo('tasks')"
-      [ngClass]="this.router.url.includes('tasks') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
+      [ngClass]="router.url.includes('tasks') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
       class="w-full cursor-pointer border-round-xl h-3rem flex align-items-center gap-3 pl-4"
     >
       <i class="pi pi-list-check font-medium"></i>
@@ -49,13 +49,14 @@
     </div>
     <div
       (click)="redirectTo('support')"
-      [ngClass]="this.router.url.includes('support') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
+      [ngClass]="router.url.includes('support') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
       class="w-full cursor-pointer border-round-xl h-3rem flex align-items-center gap-3 pl-4"
     >
       <i class="pi pi-headphones font-medium"></i>
       <div class="font-medium">At. al cliente</div>
     </div>
     <div
+    (click)="showLogin()"
       class="w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4"
     >
       <i class="pi pi-sign-in text-500 font-medium"></i>
