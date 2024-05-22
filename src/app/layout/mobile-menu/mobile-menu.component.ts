@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -8,4 +9,11 @@ import { ButtonModule } from 'primeng/button';
   imports: [CommonModule, ButtonModule],
   templateUrl: './mobile-menu.component.html',
 })
-export class MobileMenuComponent {}
+export class MobileMenuComponent {
+  public router = inject(Router);
+
+  public redirectTo(path: string) {
+    this.router.navigateByUrl(path);
+    console.log(this.router.url);
+  }
+}

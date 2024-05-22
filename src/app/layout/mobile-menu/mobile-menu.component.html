@@ -3,32 +3,56 @@
   class="flex w-full justify-content-around bg-white shadow-4 px-3 py-2"
 >
   <div class="flex flex-column align-items-center">
-    <p-button styleClass="w-3rem h-2rem border-round-2xl" icon="pi pi-home" />
-    <div class="text-primary text-xs">Home</div>
+    <p-button
+      (click)="redirectTo('home')"
+      [text]="!router.url.includes('home')"
+      styleClass="w-3rem h-2rem border-round-2xl"
+      [icon]="router.url.includes('home') ? 'pi pi-home':'pi pi-home text-700'"
+    />
+    <div
+      [class]="router.url.includes('home') ? 'text-primary text-xs' : 'text-xs text-700'"
+    >
+      Home
+    </div>
   </div>
   <div class="flex flex-column align-items-center">
     <p-button
+      (click)="redirectTo('orders-list')"
+      [text]="!router.url.includes('orders-list')"
       styleClass="w-3rem h-2rem border-round-2xl"
-      [text]="true"
-      icon="pi pi-megaphone text-700"
+      [icon]="router.url.includes('orders-list') ? 'pi pi-megaphone':'pi pi-megaphone text-700'"
     />
-    <div class="text-700 text-xs">Ordenes</div>
+    <div
+      [class]="router.url.includes('orders-list') ? 'text-primary text-xs' : 'text-xs text-700'"
+    >
+      Ordenes
+    </div>
   </div>
   <div class="flex flex-column align-items-center">
     <p-button
+      (click)="redirectTo('tasks')"
+      [text]="!router.url.includes('tasks')"
       styleClass="w-3rem h-2rem border-round-2xl"
-      [text]="true"
-      icon="pi pi-list-check text-700"
+      [icon]="router.url.includes('tasks') ? 'pi pi-list-check':'pi pi-list-check text-700'"
     />
-    <div class="text-700 text-xs">Tareas</div>
+    <div
+      [class]="router.url.includes('tasks') ? 'text-primary text-xs' : 'text-xs text-700'"
+    >
+      Tareas
+    </div>
   </div>
   <div class="flex flex-column align-items-center">
     <p-button
+      (click)="redirectTo('support')"
+      [text]="!router.url.includes('support')"
       styleClass="w-3rem h-2rem border-round-2xl"
-      [text]="true"
-      icon="pi pi-headphones  text-700"
+      [icon]="router.url.includes('support') ? 'pi pi-headphones':'pi pi-headphones text-700'"
     />
-    <div class="text-700 text-xs">Soporte</div>
+    <div
+      [class]="router.url.includes('support') ? 'text-primary text-xs' : 'text-xs text-700'"
+    >
+      Soporte
+    </div>
   </div>
   <div class="flex flex-column align-items-center">
     <p-button

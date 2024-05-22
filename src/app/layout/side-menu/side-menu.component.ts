@@ -36,5 +36,6 @@ export class SideMenuComponent {
 
   public redirectTo(path: string) {
     this.router.navigateByUrl(path);
+    console.log(this.router.url);
   }
 }
