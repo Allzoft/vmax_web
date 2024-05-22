@@ -1,11 +1,20 @@
 <div class="flex w-full">
+  @if (!layoutService.isMobile()) {
   <div class="flex w-3">
     <app-side-menu />
   </div>
-  <div class="w-full">
+  }
+  <div class="w-full flex flex-column">
     <router-outlet />
+    @if (layoutService.isMobile()) {
+    <div class="w-full fixed bottom-0">
+      <app-mobile-menu />
+    </div>
+    }
   </div>
-  <div style="width: 30%;">
+  @if (!layoutService.isMobile()) {
+  <div style="width: 30%">
     <app-profile-menu />
   </div>
+  }
 </div>

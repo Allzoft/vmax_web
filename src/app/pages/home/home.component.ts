@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RatingModule } from 'primeng/rating';
 import { CarouselModule } from 'primeng/carousel';
 import { DividerModule } from 'primeng/divider';
+import { LayoutService } from '../../services/layout.service';
 
 export interface Products {
   name: string;
@@ -50,6 +51,7 @@ export interface CurrentRetreats {
 export default class HomeComponent {
   public carouselItems = [1, 2, 3];
   public currentRetreats: CurrentRetreats[] = [];
+  public layoutService = inject(LayoutService);
 
   public productsA: Products[] = [
     {

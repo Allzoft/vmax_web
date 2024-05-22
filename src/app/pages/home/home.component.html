@@ -1,8 +1,10 @@
 <div
-  class="w-full flex flex-column py-4 px-6 gap-5"
+  class="w-full flex flex-column py-4 px-2 md:px-6 gap-3 md:gap-5"
   style="background-color: rgba(240, 238, 227, 0.63)"
 >
-  <div class="text-2xl font-bold w-full flex justify-content-between">
+  <div
+    class="text-xl md:text-2xl font-bold w-full flex justify-content-between"
+  >
     <span> Hola, Usuario </span>
     <i class="pi pi-shopping-cart text-2xl text-primary mr-3"></i>
   </div>
@@ -17,15 +19,23 @@
     <ng-template let-product pTemplate="item">
       @if (product === 1) {
       <div
-        class="relative overflow-hidden bg-primary h-10rem border-round-lg flex flex-column p-5"
+        class="relative w-full overflow-hidden bg-primary h-10rem border-round-lg flex flex-column p-5"
       >
-        <div class="text-white text-2xl font-semibold">
+        <div class="text-white md:text-2xl font-semibold">
           Consigue tus descuentos <br />
           por comisión
         </div>
-        <div class="text-white text-sm mt-4 font-semibold z-2">
+        @if (layoutService.isMobile()) {
+        <div class="text-white text-xs md:text-sm mt-4 font-semibold z-2">
+          Descubre las ofertas exclusivas <br />
+          para socios en línea hoy mismo
+        </div>
+        } @else {
+        <div class="text-white text-xs md:text-sm mt-4 font-semibold z-2">
           Descubre las ofertas exclusivas para socios en línea hoy mismo
         </div>
+
+        }
 
         <div
           class="absolute bottom-0 -mb-8 left-0 -ml-4 w-10rem h-10rem flex align-items-center justify-content-center bg-white opacity-30 border-circle"
@@ -49,12 +59,12 @@
         <img
           src="../../../assets/image-banner.png"
           alt="image-banner"
-          class="absolute bottom-0 right-0 mr-8 w-15rem"
+          class="absolute bottom-0 right-0 -mr-8 md:mr-8 w-15rem"
         />
       </div>
       } @if (product===2) {
       <div
-        class="relative border-1 border-200 overflow-hidden bg-white align-items-end text-right h-10rem border-round-lg flex flex-column p-5"
+        class="relative w-full border-1 border-200 overflow-hidden bg-white align-items-end text-right h-10rem border-round-lg flex flex-column p-5"
       >
         <div class="text-2xl font-semibold">
           Sale a la venta la versión en blanco <br />
@@ -90,7 +100,7 @@
       </div>
       } @if (product === 3) {
       <div
-        class="relative overflow-hidden bg-black-alpha-90 h-10rem border-round-lg flex flex-column p-5"
+        class="relative w-full overflow-hidden bg-black-alpha-90 h-10rem border-round-lg flex flex-column p-5"
       >
         <div class="text-white text-2xl font-semibold">
           Mejore su experiencia musical
@@ -263,7 +273,9 @@
     </div>
     }
   </div>
-  <div class="text-lg font-semibold">Últimas operaciones de pago para usuarios</div>
+  <div class="text-lg font-semibold">
+    Últimas operaciones de pago para usuarios
+  </div>
   <p-carousel
     [value]="currentRetreats"
     [numVisible]="3"
@@ -278,14 +290,13 @@
       <div
         class="relative w-full flex h-6rem border-1 bg-white overflow-hidden border-200 border-round-lg"
       >
-      <div
-      class="absolute bottom-0 right-0 bg-primary w-3rem h-6rem origin-bottom-left rotate-45 flex align-items-center justify-content-center"
-    
-    >
-      <i
-        class="pi pi-check text-white text-base origin-left -rotate-45 mr-3 mt-6"
-      ></i>
-    </div>
+        <div
+          class="absolute bottom-0 right-0 bg-primary w-3rem h-6rem origin-bottom-left rotate-45 flex align-items-center justify-content-center"
+        >
+          <i
+            class="pi pi-check text-white text-base origin-left -rotate-45 mr-3 mt-6"
+          ></i>
+        </div>
         <div class="w-full flex flex-column gap-2 justify-content-center px-6">
           <div class="flex gap-2 align-items-center">
             <span>{{ "Retiro por: " }}</span>
