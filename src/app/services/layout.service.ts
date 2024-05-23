@@ -47,7 +47,11 @@ export class LayoutService {
       debounceTime(300),
       tap((isMobile) => {
         this.isMobileValue = isMobile;
-        this.state.profileSidebarVisible = false;
+        if (this.isMobileValue) {
+          this.state.profileSidebarVisible = false;
+        } else {
+          this.state.profileSidebarVisible = true;
+        }
       })
     );
 

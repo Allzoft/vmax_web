@@ -15,11 +15,19 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { LoginDialogComponent } from '../../shared/login-dialog/login-dialog.component';
+import { UsersService } from '../../services/user.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-side-menu',
   standalone: true,
-  imports: [CommonModule, ButtonModule, MenuModule, ConfirmDialogModule],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    MenuModule,
+    ToastModule,
+    ConfirmDialogModule,
+  ],
   providers: [
     ConfirmationService,
     MessageService,
@@ -43,6 +51,7 @@ import { LoginDialogComponent } from '../../shared/login-dialog/login-dialog.com
 })
 export class SideMenuComponent {
   public confirmationService = inject(ConfirmationService);
+  public userService = inject(UsersService);
   public messageService = inject(MessageService);
   public layoutService = inject(LayoutService);
   public router = inject(Router);
@@ -63,14 +72,34 @@ export class SideMenuComponent {
       styleClass: 'w-11 md:w-4',
     });
 
-    this.ref.onClose.subscribe((client) => {
-      if (client) {
+    this.ref.onClose.subscribe((resUser) => {
+      if (resUser) {
         this.messageService.add({
           severity: 'success',
-          summary: 'Exito!',
-          detail: `Inicio de sesión exitoso`,
+          summary: 'Registro exitoso',
+          detail: `${resUser.user.name} te autenticaste exitosamente`,
         });
       }
+    });
+  }
+
+  public showCloseSesion() {
+    this.confirmationService.confirm({
+      message: 'Esta seguro desea cerrar sesión',
+      acceptLabel: 'Si',
+      acceptButtonStyleClass: 'p-button-rounded p-button-success w-7rem',
+      rejectLabel: 'No',
+      rejectButtonStyleClass: 'p-button-rounded p-button-danger w-7rem',
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userService.closeSession();
+        this.messageService.add({
+          severity: 'success',
+          summary: '¡Exito!',
+          detail: 'Cierre de sesión exitoso',
+        });
+      },
     });
   }
 }

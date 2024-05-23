@@ -5,7 +5,11 @@
   <div
     class="text-xl md:text-2xl font-bold w-full flex justify-content-between"
   >
+    @if (userService.user) {
+    <span> {{'Hola, ' + userService.user.user.name}} </span>
+    }@else {
     <span> Hola, Usuario </span>
+    }
     <div class="flex gap-2 align-items-center">
       <i class="pi pi-shopping-cart text-xl md:text-2xl text-primary mr-3"></i>
 

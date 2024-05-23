@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DividerModule } from 'primeng/divider';
 import { MenuModule } from 'primeng/menu';
+import { UsersService } from '../../services/user.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -28,10 +29,12 @@ import { MenuModule } from 'primeng/menu';
 })
 export class ProfileMenuComponent implements OnInit {
   public confirmationService = inject(ConfirmationService);
+  private usersService = inject(UsersService);
   public layoutService = inject(LayoutService);
+
+  public user = this.usersService.user?.user;
 
   ngOnInit(): void {
     console.log(this.layoutService.state.profileSidebarVisible);
-
   }
 }

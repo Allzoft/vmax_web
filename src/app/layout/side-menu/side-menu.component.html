@@ -55,13 +55,23 @@
       <i class="pi pi-headphones font-medium"></i>
       <div class="font-medium">At. al cliente</div>
     </div>
+    @if (!userService.user) {
     <div
-    (click)="showLogin()"
+      (click)="showLogin()"
       class="w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4"
     >
       <i class="pi pi-sign-in text-500 font-medium"></i>
       <div class="text-500 font-medium">Iniciar sesión</div>
     </div>
+    } @else {
+    <div
+      (click)="showCloseSesion()"
+      class="w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4"
+    >
+      <i class="pi pi-sign-out text-500 font-medium"></i>
+      <div class="text-500 font-medium">Cerrar sesión</div>
+    </div>
+    }
 
     <div
       class="relative mt-5 w-full border-round-xl overflow-hidden text-ra bg-primary h-8rem flex flex-column gap-2 pl-4 pt-3"
@@ -109,4 +119,5 @@
     </div>
   </div>
 </div>
+<p-toast position="top-center"></p-toast>
 <p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>

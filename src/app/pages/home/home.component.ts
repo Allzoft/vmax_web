@@ -6,6 +6,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { DividerModule } from 'primeng/divider';
 import { LayoutService } from '../../services/layout.service';
 import { ButtonModule } from 'primeng/button';
+import { UsersService } from '../../services/user.service';
 
 export interface Products {
   name: string;
@@ -59,6 +60,7 @@ export default class HomeComponent {
   public carouselItems = [1, 2, 3];
   public currentRetreats: CurrentRetreats[] = [];
   public layoutService = inject(LayoutService);
+  public userService = inject(UsersService);
 
   public productsA: Products[] = [
     {

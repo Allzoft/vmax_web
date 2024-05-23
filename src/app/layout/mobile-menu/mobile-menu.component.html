@@ -55,11 +55,24 @@
     </div>
   </div>
   <div class="flex flex-column align-items-center">
+    @if (userService.user) {
     <p-button
       styleClass="w-3rem h-2rem border-round-2xl"
       [text]="true"
+      (onClick)="showCloseSesion()"
+      icon="pi pi-sign-out text-700"
+    />
+    <div class="text-700 text-xs">Cerrar sesión</div>
+    } @else {
+    <p-button
+      styleClass="w-3rem h-2rem border-round-2xl"
+      [text]="true"
+      (onClick)="showLogin()"
       icon="pi pi-sign-in text-700"
     />
     <div class="text-700 text-xs">Log in</div>
+    }
   </div>
 </div>
+<p-toast position="top-center"></p-toast>
+<p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>
