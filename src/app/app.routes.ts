@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { LoginGuard } from './services/guards/login.guard';
 
 export const routes: Routes = [
   {
@@ -16,16 +17,20 @@ export const routes: Routes = [
       },
       {
         path: 'orders-list',
+        canActivate: [LoginGuard],
         title: 'Lista de Ordenes',
-        loadComponent: () => import('./pages/orders-list/orders-list.component'),
+        loadComponent: () =>
+          import('./pages/orders-list/orders-list.component'),
       },
       {
         path: 'support',
+        canActivate: [LoginGuard],
         title: 'Soporte',
         loadComponent: () => import('./pages/support/support.component'),
       },
       {
         path: 'tasks',
+        canActivate: [LoginGuard],
         title: 'Tareas V-Max',
         loadComponent: () => import('./pages/tasks/tasks.component'),
       },

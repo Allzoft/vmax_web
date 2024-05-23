@@ -35,10 +35,10 @@ export class UsersService {
       this.authService.setAuthenticationStatus(false);
       this.user = null;
     }
-    console.log(this.user);
   }
 
   async isUserLogin(): Promise<boolean> {
+
     return !!this.user?.access_token;
   }
 

@@ -37,9 +37,19 @@ export class MobileMenuComponent {
 
   public router = inject(Router);
 
-  public redirectTo(path: string) {
+  public async redirectTo(path: string) {
+    const isLoggedIn = await this.userService.isUserLogin();
+
+    if (!isLoggedIn) {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Inicia sesión',
+        detail: 'Por favor, inicia sesión para continuar',
+      });
+      return;
+    }
+
     this.router.navigateByUrl(path);
-    console.log(this.router.url);
   }
 
   public showLogin() {

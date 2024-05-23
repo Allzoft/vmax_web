@@ -64,7 +64,6 @@ export class LayoutService {
 
   toggleProfile(): void {
     this.state.profileSidebarVisible = !this.state.profileSidebarVisible;
-    console.log(this.state.profileSidebarVisible);
   }
 
   onMenuToggle() {

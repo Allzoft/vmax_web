@@ -27,14 +27,10 @@ import { UsersService } from '../../services/user.service';
   }
   `,
 })
-export class ProfileMenuComponent implements OnInit {
+export class ProfileMenuComponent {
   public confirmationService = inject(ConfirmationService);
   private usersService = inject(UsersService);
   public layoutService = inject(LayoutService);
 
   public user = this.usersService.user?.user;
-
-  ngOnInit(): void {
-    console.log(this.layoutService.state.profileSidebarVisible);
-  }
 }
