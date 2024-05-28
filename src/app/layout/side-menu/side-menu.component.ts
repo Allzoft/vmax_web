@@ -47,6 +47,9 @@ import { ToastModule } from 'primeng/toast';
       top: 0;
       z-index: 2;
     }
+    .w-1s sr use {
+      fill: red;
+    }
   `,
 })
 export class SideMenuComponent {

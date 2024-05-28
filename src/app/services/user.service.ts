@@ -7,6 +7,9 @@ import { Location } from '@angular/common';
 import { AuthService } from './auth.service';
 import { Token, User } from '../interfaces/user.interface';
 import { environment } from '../../environments/environment';
+import { LayoutService } from './layout.service';
+import { Order } from '../interfaces/order.interface';
+import { PayResponse } from '../interfaces/payReponse.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +17,7 @@ import { environment } from '../../environments/environment';
 export class UsersService {
   public user?: Token | null;
   public authService = inject(AuthService);
+  public layoutService = inject(LayoutService);
 
   private headers(): HttpHeaders {
     return new HttpHeaders({
@@ -30,15 +34,17 @@ export class UsersService {
     if (localStorage.getItem('user')) {
       const userString = localStorage.getItem('user');
       this.authService.setAuthenticationStatus(true);
+      this.layoutService.state.profileSidebarVisible = true;
       this.user = JSON.parse(userString!);
+      this.refreshUser();
     } else {
       this.authService.setAuthenticationStatus(false);
       this.user = null;
     }
+    console.log(this.user);
   }
 
   async isUserLogin(): Promise<boolean> {
-
     return !!this.user?.access_token;
   }
 
@@ -53,11 +59,14 @@ export class UsersService {
 
     localStorage.removeItem('user');
     this.user = null;
+    this.layoutService.state.profileSidebarVisible = false;
   }
 
   public openSession(resUser: Token) {
     this.user = resUser;
     localStorage.setItem('user', JSON.stringify(resUser));
+    this.layoutService.state.profileSidebarVisible = true;
+    console.log(this.user);
   }
 
   // sendEmailRecover(email: {
@@ -104,6 +113,17 @@ export class UsersService {
       );
   }
 
+  public async refreshUser(): Promise<void> {
+    this.http
+      .get<User>(`${environment.url_api}/users/${this.isIdUser()}`)
+      .subscribe((res) => {
+        console.log(res);
+
+        this.user!.user = res;
+        localStorage.setItem('user', JSON.stringify(this.user!));
+      });
+  }
+
   public postUser(user: Partial<User>): Observable<User> {
     return this.http.post<User>(`${environment.url_api}/users`, user).pipe();
   }
@@ -120,5 +140,34 @@ export class UsersService {
         headers: this.headers(),
       }
     );
+  }
+
+  public getOrdersByUser(): Observable<Order[]> {
+    return this.http.get<Order[]>(
+      `${environment.url_api}/orders/byUser/${this.isIdUser()}`
+    );
+  }
+
+  public payOrder(idOrder: number): Observable<PayResponse> {
+    const data = {
+      idUser: this.isIdUser(),
+    };
+    return this.http
+      .patch<PayResponse>(
+        `${environment.url_api}/orders/payOrder/${idOrder}`,
+        data
+      )
+      .pipe(
+        tap((payResponse) => {
+          this.user!.user.wallet = payResponse.wallet;
+          const indexOrder = this.user!.user.phase!.orders!.findIndex(
+            (order) => {
+              order.id_order === payResponse.order.id_order;
+            }
+          );
+          this.user!.user.phase!.orders![indexOrder] = payResponse.order;
+          // localStorage.setItem('user', JSON.stringify(this.user!.user));
+        })
+      );
   }
 }

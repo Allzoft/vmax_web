@@ -20,10 +20,10 @@ import { TopBarComponent } from './top-bar/top-bar.component';
   ],
   templateUrl: './layout.component.html',
   styles: `
-    .w-0: {
+    .w-0 {
       width: 0%
     }
-  `
+  `,
 })
 export default class LayoutComponent {
   public layoutService = inject(LayoutService);

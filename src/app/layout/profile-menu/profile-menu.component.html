@@ -15,6 +15,7 @@
         icon="pi pi-user-plus text-900 text-lg"
         [text]="true"
         styleClass="h-2rem w-2rem"
+        (onClick)="copyUuid()"
       />
       <p-button
         severity="secondary"
@@ -53,12 +54,13 @@
       <div class="flex flex-column gap-2">
         <p-button
           styleClass="h-2rem w-2rem bg-white border-white"
-          severity="secondary"
-          icon="pi text-900 pi-upload"
+          severity="contrast"
+          [outlined]="true"
+          icon="pi  pi-upload"
         />
         <p-button
           styleClass="h-2rem w-2rem bg-white border-white"
-          severity="secondary"
+          severity="contrast"
           icon="pi text-900 pi-download"
         />
       </div>
@@ -74,47 +76,126 @@
   </div>
   <div class="flex flex-column my-3 w-full px-3">
     <div class="font-bold">Tareas recientes:</div>
-    <div class="w-full flex gap-3 align-items-center mt-3">
+    @if (orderPendding) {
+    <div
+      class="w-full flex gap-3 align-items-center mt-1 p-2 border-round-lg cursor-pointer hover:surface-100"
+      (click)="redirectOrder()"
+    >
       <i class="pi pi-circle text-3xl text-400"></i>
       <div class="flex w-full flex-column gap-1 pr-2">
-        <div class="text-xxs">Subscripción a cuenta de skrill</div>
+        <div class="text-xxs">
+          {{ orderPendding.name + ' - codigo: ' + orderPendding.id_order }}
+        </div>
         <div class="flex w-full justify-content-between gap-2">
-          <div class="text-xxs text-500">En Proceso</div>
+          <div class="text-xxs text-500">
+            {{ orderPendding.state!.name}}
+          </div>
           <div class="text-xs font-semibold">
-            +<span class="text-primary">$</span>10
+            +<span class="text-primary">$</span>{{ orderPendding.commission }}
           </div>
         </div>
       </div>
     </div>
-    <div class="w-full flex gap-3 align-items-center mt-3">
-      <i class="pi pi-check-circle text-3xl text-green-400"></i>
+    } @if (orderInProcess) {
+    <div
+      class="w-full flex gap-3 align-items-center mt-1 p-2 border-round-lg cursor-pointer hover:surface-100"
+      (click)="redirectOrder()"
+    >
+      <i class="pi pi-spin pi-spinner text-3xl text-primary"></i>
       <div class="flex w-full flex-column gap-1 pr-2">
-        <div class="text-xxs">Recomendación en google maps</div>
+        <div class="text-xxs">
+          {{ orderInProcess.name + ' - codigo: ' + orderInProcess.id_order }}
+        </div>
         <div class="flex w-full justify-content-between gap-2">
-          <div class="text-xxs text-500">Completada</div>
+          <div class="text-xxs text-500">
+            {{ orderInProcess.state!.name}}
+          </div>
           <div class="text-xs font-semibold">
-            +<span class="text-primary">$</span>10
+            +<span class="text-primary">$</span>{{ orderInProcess.commission }}
           </div>
         </div>
       </div>
     </div>
-    <div class="w-full flex gap-3 align-items-center mt-3">
-      <i class="pi pi-check-circle text-3xl text-green-400"></i>
+    } @if (lastOrderComplete) {
+    <div
+      class="w-full flex gap-3 align-items-center mt-1 p-2 border-round-lg cursor-pointer hover:surface-100"
+      (click)="redirectOrder()"
+    >
+      <i class="pi pi-check-circle text-3xl text-primary"></i>
       <div class="flex w-full flex-column gap-1 pr-2">
-        <div class="text-xxs">Subscripción a página de Youtube</div>
+        <div class="text-xxs">
+          {{ lastOrderComplete.name + ' - codigo: ' + lastOrderComplete.id_order
+          }}
+        </div>
         <div class="flex w-full justify-content-between gap-2">
-          <div class="text-xxs text-500">Completada</div>
+          <div class="text-xxs text-500">
+            {{ lastOrderComplete.state!.name}}
+          </div>
           <div class="text-xs font-semibold">
-            +<span class="text-primary">$</span>10
+            +<span class="text-primary">$</span>{{ lastOrderComplete.commission
+            }}
           </div>
         </div>
       </div>
     </div>
+    }
+    <!-- <div
+      class="w-full flex gap-3 align-items-center mt-1 p-2 border-round-lg"
+      [ngClass]="!task.is_completed ? 'cursor-pointer hover:surface-100':''"
+    >
+      <i
+        [class]="task.is_completed ? 'pi pi-check-circle text-3xl text-primary':'pi pi-circle text-3xl text-400'"
+      ></i>
+      <div class="flex w-full flex-column gap-1 pr-2">
+        @if (task.type_task[0] === 'Monetaria') {
+        <div class="text-xxs">
+          {{ task.name + ' - codigo: ' + task.orderId }}
+        </div>
+        }@else {
+        <div class="text-xxs">{{ task.name }}</div>
+        }
+        <div class="flex w-full justify-content-between gap-2">
+          <div class="text-xxs text-500">
+            {{ task.is_completed ? 'Completado':'En Proceso'}}
+          </div>
+          <div class="text-xs font-semibold">
+            +<span class="text-primary">$</span>{{ task.credit }}
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div
+      class="w-full flex gap-3 align-items-center mt-1 p-2 border-round-lg"
+      [ngClass]="!task.is_completed ? 'cursor-pointer hover:surface-100':''"
+    >
+      <i
+        [class]="task.is_completed ? 'pi pi-check-circle text-3xl text-primary':'pi pi-circle text-3xl text-400'"
+      ></i>
+      <div class="flex w-full flex-column gap-1 pr-2">
+        @if (task.type_task[0] === 'Monetaria') {
+        <div class="text-xxs">
+          {{ task.name + ' - codigo: ' + task.orderId }}
+        </div>
+        }@else {
+        <div class="text-xxs">{{ task.name }}</div>
+        }
+        <div class="flex w-full justify-content-between gap-2">
+          <div class="text-xxs text-500">
+            {{ task.is_completed ? 'Completado':'En Proceso'}}
+          </div>
+          <div class="text-xs font-semibold">
+            +<span class="text-primary">$</span>{{ task.credit }}
+          </div>
+        </div>
+      </div>
+    </div> -->
+
     <p-divider />
     <div class="font-bold flex justify-content-between w-full">
       <span>{{ user?.phase?.name + '-' + user?.phase?.level}}</span>
       <span class="text-sm font-medium"
-        ><span class="text-primary">6</span>/{{user?.phase?.task_number}}</span
+        ><span class="text-primary">{{ordersCompleteCount}}</span
+        >/{{user?.phase?.task_number}}</span
       >
     </div>
   </div>
@@ -128,4 +209,5 @@
     <p-button styleClass="w-full text-sm" label="Cerrar sesión" />
   </div>
 </div>
+<p-toast position="top-center"></p-toast>
 <p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>

@@ -1,28 +1,26 @@
 <div
   class="w-12 bg-white h-screen shadow-2 flex flex-column transition-ease-in-out transition-duration-500 align-items-center z-2 overflow-auto"
 >
-  <div class="w-full px-4 md:py-2">
-    <div
+  <div class="w-full px-3 md:py-2">
+    <!-- <div
       class="w-full h-5rem border-round-lg text-2xl font-semibold mt-3 flex align-items-center justify-content-center"
     >
       Venta Max
+    </div> -->
+    <div class="w-full flex align-items-center  my-4">
+      <img
+        src="../../../assets/brand/logo-name.png"
+        alt="venta-max-logo"
+        class="w-13rem -ml-3"
+      />
+      <div
+        style="height: 7px; width: 7px;"
+        class="bg-primary border-circle mt-6 -ml-3"
+      ></div>
     </div>
-    <!-- <img
-      src="../../../assets/Logo clínica PASTEUR.png"
-      alt="logo-antuca"
-      class="w-full "
-    /> -->
-    @if (layoutService.isMobile()) {
-    <p-button
-      icon="pi pi-times"
-      severity="secondary"
-      [rounded]="true"
-      [outlined]="true"
-      styleClass="h-2rem w-2rem absolute top-0 right-0 mt-4 mr-4"
-    ></p-button>
-    }
+
   </div>
-  <div class="w-full flex flex-column gap-3 px-3 mt-5 w-">
+  <div class="w-full flex flex-column gap-3 px-3">
     <div
       (click)="redirectTo('home')"
       [ngClass]="router.url.includes('home') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
@@ -38,14 +36,6 @@
     >
       <i class="pi pi-megaphone font-medium"></i>
       <div class="font-medium">Pedidos</div>
-    </div>
-    <div
-      (click)="redirectTo('tasks')"
-      [ngClass]="router.url.includes('tasks') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
-      class="w-full cursor-pointer border-round-xl h-3rem flex align-items-center gap-3 pl-4"
-    >
-      <i class="pi pi-list-check font-medium"></i>
-      <div class="font-medium">Tareas</div>
     </div>
     <div
       (click)="redirectTo('support')"
@@ -74,7 +64,7 @@
     }
 
     <div
-      class="relative mt-5 w-full border-round-xl overflow-hidden text-ra bg-primary h-8rem flex flex-column gap-2 pl-4 pt-3"
+      class="relative mt-2 w-full border-round-xl overflow-hidden text-ra bg-primary h-8rem flex flex-column gap-2 pl-4 pt-3"
     >
       <div class="w-full text-white font-medium">
         Mejora tu cuenta

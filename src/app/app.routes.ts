@@ -29,12 +29,6 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/support/support.component'),
       },
       {
-        path: 'tasks',
-        canActivate: [LoginGuard],
-        title: 'Tareas V-Max',
-        loadComponent: () => import('./pages/tasks/tasks.component'),
-      },
-      {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',

@@ -1,5 +1,5 @@
+import { Order } from './order.interface';
 import { Phase } from './phase.interface';
-import { Task } from './task.interface';
 
 export interface Token {
   access_token: string;
@@ -20,7 +20,7 @@ export interface User {
   walletId: number;
   wallet: Wallet;
   phase?: Phase;
-  tasks?: Task[];
+  orders?: Order[];
 }
 
 export interface Wallet {

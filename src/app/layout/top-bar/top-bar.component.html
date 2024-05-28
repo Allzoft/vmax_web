@@ -2,15 +2,29 @@
   style="background-color: rgba(240, 238, 227, 0.63);"
   class="w-full px-2 md:px-4 pt-3"
 >
+  <div></div>
   <div
     class="text-xl md:text-2xl font-bold w-full flex justify-content-between"
   >
-    @if (userService.user) {
-    <span> {{'Hola, ' + userService.user.user.name}} </span>
-    }@else {
-    <span> Hola, Usuario </span>
-    }
-    <div class="flex gap-2 align-items-center">
+    <div class="flex flex-column gap-2">
+      @if (layoutService.isMobile()) {
+      <div class="flex gap-2">
+        <img
+          src="../../../assets/brand/logo-name.png"
+          alt="logo"
+          class="w-10rem h-3rem"
+        />
+        <div
+        style="height: 7px; width: 7px; margin-top: 2.3rem;"
+        class="border-circle bg-primary  -ml-3"></div>
+      </div>
+      } @if (userService.user) {
+      <span class="pl-3 mt-3 md:pl-0 md:mt-0"> {{'Hola, ' + userService.user.user.name}} </span>
+      }@else {
+      <span class="pl-3 mt-3 md:pl-0 md:mt-0"> Hola, Usuario </span>
+      }
+    </div>
+    <div class="flex gap-2 align-items-center -mt-5 mr-1 md:m-0">
       <i class="pi pi-shopping-cart text-xl md:text-2xl text-primary mr-3"></i>
 
       <p-button

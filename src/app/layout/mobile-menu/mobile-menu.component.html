@@ -28,19 +28,7 @@
       Ordenes
     </div>
   </div>
-  <div class="flex flex-column align-items-center">
-    <p-button
-      (click)="redirectTo('tasks')"
-      [text]="!router.url.includes('tasks')"
-      styleClass="w-3rem h-2rem border-round-2xl"
-      [icon]="router.url.includes('tasks') ? 'pi pi-list-check':'pi pi-list-check text-700'"
-    />
-    <div
-      [class]="router.url.includes('tasks') ? 'text-primary text-xs' : 'text-xs text-700'"
-    >
-      Tareas
-    </div>
-  </div>
+
   <div class="flex flex-column align-items-center">
     <p-button
       (click)="redirectTo('support')"

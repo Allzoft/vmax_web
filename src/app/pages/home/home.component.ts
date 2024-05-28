@@ -50,7 +50,7 @@ export interface CurrentRetreats {
     height: 2px;
   }
 
-  .w-0: {
+  .w-0 {
     width: 0%
   }
 
@@ -68,7 +68,7 @@ export default class HomeComponent {
       photo: 'p1.png',
       commission: 27,
       rating: 3.5,
-      price: 120.0,
+      price: 12.0,
     },
     {
       name: 'AK-900 Wired Keyboard',

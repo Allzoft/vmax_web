@@ -24,7 +24,7 @@ export class LayoutService {
   state: LayoutState = {
     staticMenuDesktopInactive: false,
     overlayMenuActive: false,
-    profileSidebarVisible: true,
+    profileSidebarVisible: false,
     configSidebarVisible: false,
     staticMenuMobileActive: false,
     menuHoverActive: false,
@@ -50,7 +50,8 @@ export class LayoutService {
         if (this.isMobileValue) {
           this.state.profileSidebarVisible = false;
         } else {
-          this.state.profileSidebarVisible = true;
+          if (localStorage.getItem('user'))
+            this.state.profileSidebarVisible = true;
         }
       })
     );
