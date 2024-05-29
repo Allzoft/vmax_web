@@ -7,10 +7,12 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DividerModule } from 'primeng/divider';
 import { MenuModule } from 'primeng/menu';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { UsersService } from '../../services/user.service';
 import { ToastModule } from 'primeng/toast';
 import { Order } from '../../interfaces/order.interface';
 import { Router } from '@angular/router';
+import { BadgeModule } from 'primeng/badge';
 
 @Component({
   selector: 'app-profile-menu',
@@ -21,7 +23,9 @@ import { Router } from '@angular/router';
     MenuModule,
     ConfirmDialogModule,
     DividerModule,
+    OverlayPanelModule,
     ToastModule,
+    BadgeModule,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './profile-menu.component.html',
@@ -33,7 +37,7 @@ import { Router } from '@angular/router';
 })
 export class ProfileMenuComponent {
   public confirmationService = inject(ConfirmationService);
-  private usersService = inject(UsersService);
+  public usersService = inject(UsersService);
   public layoutService = inject(LayoutService);
   public messageService = inject(MessageService);
   public router = inject(Router);
@@ -106,5 +110,40 @@ export class ProfileMenuComponent {
 
   public redirectOrder() {
     this.router.navigateByUrl('orders-list');
+  }
+
+  public redirectTo(module: string) {
+    this.router.navigateByUrl(module);
+    if (this.layoutService.isMobile()) {
+      this.layoutService.state.profileSidebarVisible = false;
+    }
+  }
+
+  public showCloseSesion() {
+    this.confirmationService.confirm({
+      message: 'Esta seguro desea cerrar sesión',
+      acceptLabel: 'Si',
+      acceptButtonStyleClass: 'p-button-rounded p-button-success w-7rem',
+      rejectLabel: 'No',
+      rejectButtonStyleClass: 'p-button-rounded p-button-danger w-7rem',
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.usersService.closeSession();
+        this.messageService.add({
+          severity: 'success',
+          summary: '¡Exito!',
+          detail: 'Cierre de sesión exitoso',
+        });
+      },
+    });
+  }
+
+  public get unreadCount(): number {
+    const count = this.usersService.notifications.reduce(
+      (acc, notification) => acc + (notification.isRead ? 0 : 1),
+      0
+    );
+    return count;
   }
 }

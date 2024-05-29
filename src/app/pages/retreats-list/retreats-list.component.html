@@ -1,0 +1,83 @@
+<div
+  class="w-full min-h-screen flex flex-column align-items-center gap-2 p-2"
+  style="background-color: rgba(240, 238, 227, 0.63);"
+>
+  <div
+    class="w-full flex p-3 flex-column md:flex-row justify-content-center md:justify-content-between align-items-center gap-2"
+  >
+    @if (!layoutService.isMobile()) {
+    <p-button icon="pi pi-money-bill" severity="secondary"></p-button>
+    }
+    <p-selectButton
+      [options]="statesFilters"
+      optionLabel="name"
+      optionValue="id_state"
+      styleClass="w-12  flex flex-nowrap"
+      [allowEmpty]="false"
+      (onOptionClick)="filterRetreats($event)"
+    />
+    <p-button
+      icon="pi pi-plus"
+      [label]="'Solicitar retiro'"
+      (onClick)="addRetreats()"
+    ></p-button>
+  </div>
+  <div class="w-full flex flex-column gap-2 px-3">
+    @for (retreat of retreatsFilters; track $index) {
+    <div class="relative w-full bg-white flex gap-3 overflow-hidden">
+      <img
+        src="../../../assets/retreat.svg"
+        alt="svg"
+        class="w-4 md:w-2 absolute right-0 opacity-40 bottom-0 -mb-3 -mr-7 md:mr-0"
+      />
+      <div class="w-2 flex align-items-center justify-content-center">
+        @if (retreat.stateIdState === 6) {
+        <i class="pi pi-circle-fill text-6xl text-200 ml-3"></i>
+        } @if (retreat.stateIdState === 7 ) {
+        <i class="pi pi-spin pi-spinner text-6xl text-blue-400 ml-3"></i>
+        } @if (retreat.stateIdState === 8) {
+        <i class="pi pi-check-circle text-6xl text-primary ml-3"></i>
+        }
+      </div>
+      <div class="flex flex-column justify-content-between py-2 gap-1">
+        <div class="flex gap-1 text-sm align-items-center">
+          <div class="font-medium text-700">Cantidad de retiro:</div>
+          <div class="text-800 font-semibold">
+            {{retreat.total_retreat}}
+          </div>
+        </div>
+        <div class="flex gap-1 text-sm align-items-center">
+          <div class="font-medium text-700">Banco:</div>
+          <div class="text-800 font-semibold">
+            {{retreat.bank_name}}
+          </div>
+        </div>
+        <div class="flex gap-1 text-sm align-items-center">
+          <div class="font-medium text-700">Cuenta:</div>
+          <div class="text-800 font-semibold">
+            {{retreat.account_code}}
+          </div>
+        </div>
+        <div class="flex gap-1 text-sm align-items-center">
+          <div class="font-medium text-700">Fecha y hora:</div>
+          <div class="text-800 font-semibold">
+            {{retreat.retreat_date | date: 'yyyy-MM-dd HH:mm'}}
+          </div>
+        </div>
+      </div>
+    </div>
+    } @empty {
+    <div class="w-full flex flex-column align-items-center gap-2">
+      <div class="w-full text-800">Aun no hay movimientos registrados</div>
+      <img src="../../../assets/empty.svg" alt="empty-list" class="w-6" />
+    </div>
+    }
+  </div>
+  <p-button
+    severity="secondary"
+    styleClass="mt-3 md:mb-0 mb-7"
+    label="Mostrar más"
+    (onClick)="getMoreRetreats()"
+    [disabled]="!userService.hasMoreRetreats"
+  ></p-button>
+</div>

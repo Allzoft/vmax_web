@@ -8,4 +8,10 @@ import { ButtonModule } from 'primeng/button';
   imports: [CommonModule, ButtonModule],
   templateUrl: './support.component.html',
 })
-export default class SupportComponent {}
+export default class SupportComponent {
+
+  public sendTG(){
+    window.open('https://t.me/zarateHECTOR', '_blank')
+  }
+
+}

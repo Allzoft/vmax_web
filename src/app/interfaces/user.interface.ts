@@ -27,4 +27,7 @@ export interface Wallet {
   id_wallet: number;
   balance: number;
   currency: string;
+  vip_1_earnings: number;
+  vip_2_earnings: number;
+  vip_3_earnings: number;
 }

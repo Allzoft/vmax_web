@@ -10,6 +10,9 @@ import { environment } from '../../environments/environment';
 import { LayoutService } from './layout.service';
 import { Order } from '../interfaces/order.interface';
 import { PayResponse } from '../interfaces/payReponse.interface';
+import { Notification } from '../interfaces/notification.interface';
+import { Credit } from '../interfaces/credit.interface';
+import { Retreat } from '../interfaces/retreat.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +21,15 @@ export class UsersService {
   public user?: Token | null;
   public authService = inject(AuthService);
   public layoutService = inject(LayoutService);
+
+  public limit = 5;
+  public offset = 0;
+
+  public notifications: Notification[] = [];
+  public hasMoreNotifications: boolean = true;
+
+  public hasMoreCredits: boolean = true;
+  public hasMoreRetreats: boolean = true;
 
   private headers(): HttpHeaders {
     return new HttpHeaders({
@@ -37,6 +49,7 @@ export class UsersService {
       this.layoutService.state.profileSidebarVisible = true;
       this.user = JSON.parse(userString!);
       this.refreshUser();
+      this.getNotifications();
     } else {
       this.authService.setAuthenticationStatus(false);
       this.user = null;
@@ -122,6 +135,108 @@ export class UsersService {
         this.user!.user = res;
         localStorage.setItem('user', JSON.stringify(this.user!));
       });
+  }
+
+  public getNotifications(): void {
+    const userId = this.isIdUser();
+    this.http
+      .get<Notification[]>(
+        `${environment.url_api}/notifications/byUser/${userId}/${this.limit}/${this.offset}`
+      )
+      .subscribe(
+        (res: Notification[]) => {
+          if (res.length < this.limit) {
+            this.hasMoreNotifications = false;
+          }
+          this.offset += this.limit;
+          this.notifications = [...this.notifications, ...res];
+        },
+        (error) => {
+          this.hasMoreNotifications = false;
+        }
+      );
+  }
+
+  public getCredits(limit: number, offset: number) {
+    const walletId = this.user?.user.walletId;
+    return this.http
+      .get<Credit[]>(
+        `${environment.url_api}/credits/byWallet/${walletId}/${limit}/${offset}`
+      )
+      .pipe(
+        tap((res: Credit[]) => {
+          if (res.length < limit) {
+            this.hasMoreCredits = false;
+          }
+        }),
+        catchError((error) => {
+          this.hasMoreCredits = false;
+          throw error;
+        })
+      );
+  }
+
+  public postCredit(credit: Partial<Credit>) {
+    return this.http.post<Credit>(`${environment.url_api}/credits`, credit);
+  }
+
+  public getRetreats(limit: number, offset: number) {
+    const walletId = this.user?.user.walletId;
+    return this.http
+      .get<Retreat[]>(
+        `${environment.url_api}/retreats/byWallet/${walletId}/${limit}/${offset}`
+      )
+      .pipe(
+        tap((res: Retreat[]) => {
+          if (res.length < limit) {
+            this.hasMoreRetreats = false;
+          }
+        }),
+        catchError((error) => {
+          this.hasMoreRetreats = false;
+          throw error;
+        })
+      );
+  }
+
+  public postRetreat(retreat: Partial<Retreat>) {
+    return this.http.post<Retreat>(`${environment.url_api}/retreats`, retreat);
+  }
+
+  public updateNotifications(): void {
+    const notificationsUnread = this.notifications.filter(
+      (notification) => notification.isRead === 0
+    );
+
+    const updateRequests = notificationsUnread.map((notification) => {
+      const updateNotification: Partial<Notification> = {
+        isRead: 1,
+        tittle: notification.tittle,
+        photo: notification.photo,
+      };
+
+      return this.http
+        .patch<Notification>(
+          `${environment.url_api}/notifications/${notification.id_notification}`,
+          updateNotification
+        )
+        .toPromise()
+        .then((res) => {
+          const index = this.notifications.findIndex(
+            (n) => n.id_notification === res!.id_notification
+          );
+          if (index !== -1) {
+            this.notifications[index] = res!;
+          }
+        })
+        .catch((error) => {
+          console.error('Error updating notification:', error);
+        });
+    });
+
+    Promise.all(updateRequests).then(() => {
+      console.log('All notifications updated successfully');
+    });
   }
 
   public postUser(user: Partial<User>): Observable<User> {

@@ -42,16 +42,35 @@
       Soporte
     </div>
   </div>
+  @if (userService.user) {
   <div class="flex flex-column align-items-center">
-    @if (userService.user) {
     <p-button
+      (click)="redirectTo('incomes-list')"
+      [text]="!router.url.includes('incomes-list')"
       styleClass="w-3rem h-2rem border-round-2xl"
-      [text]="true"
-      (onClick)="showCloseSesion()"
-      icon="pi pi-sign-out text-700"
+      [icon]="router.url.includes('incomes-list') ? 'pi pi-history':'pi pi-history text-700'"
     />
-    <div class="text-700 text-xs">Cerrar sesión</div>
-    } @else {
+    <div
+      [class]="router.url.includes('incomes-list') ? 'text-primary text-xs' : 'text-xs text-700'"
+    >
+      Historial
+    </div>
+  </div>
+  <div class="flex flex-column align-items-center">
+    <p-button
+      (click)="redirectTo('retreats-list')"
+      [text]="!router.url.includes('retreats-list')"
+      styleClass="w-3rem h-2rem border-round-2xl"
+      [icon]="router.url.includes('retreats-list') ? 'pi pi-money-bill':'pi pi-money-bill text-700'"
+    />
+    <div
+      [class]="router.url.includes('retreats-list') ? 'text-primary text-xs' : 'text-xs text-700'"
+    >
+      Retiros
+    </div>
+  </div>
+  } @else {
+  <div class="flex flex-column align-items-center">
     <p-button
       styleClass="w-3rem h-2rem border-round-2xl"
       [text]="true"
@@ -59,8 +78,8 @@
       icon="pi pi-sign-in text-700"
     />
     <div class="text-700 text-xs">Log in</div>
-    }
   </div>
+  }
 </div>
 <p-toast position="top-center"></p-toast>
 <p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>

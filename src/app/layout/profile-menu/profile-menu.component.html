@@ -17,18 +17,71 @@
         styleClass="h-2rem w-2rem"
         (onClick)="copyUuid()"
       />
-      <p-button
-        severity="secondary"
-        icon="pi pi-bell text-900 text-lg"
-        [text]="true"
-        styleClass="h-2rem w-2rem"
-      />
+
+      <p-overlayPanel (onShow)="usersService.updateNotifications()" #op>
+        <div
+          class="flex flex-column gap-3 align-items-center w-21rem md:w-20rem"
+        >
+          @for (notification of usersService.notifications; track $index) {
+          <div
+            class="w-full border-round-xl hover:surface-200 flex gap-3 px-2 h-5rem"
+          >
+            <div
+              class="relative w-3 h-full py-1 border-round-lg flex align-items-center justify-content-center"
+            >
+              <img
+                [src]="'../../../assets/products/' + notification.photo"
+                [alt]="notification.tittle"
+                class="h-full"
+              />
+              <i
+                [style]="{ color: notification.color}"
+                [class]="'-mr-2  absolute bottom-0 right-0 text-xl pi pi-' + notification.icon"
+              ></i>
+            </div>
+            <div
+              class="w-full flex flex-column h-full justify-content-center gap-1"
+            >
+              <div class="w-full text-700">{{ notification.tittle }}</div>
+              <div class="w-full text-400 text-xs">
+                {{ notification.description }}
+              </div>
+              <div class="w-full text-400 text-xs">
+                {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
+              </div>
+            </div>
+          </div>
+          }
+          <p-button
+            label="Mostrar más"
+            severity="secondary"
+            [disabled]="!usersService.hasMoreNotifications"
+            (onClick)="usersService.getNotifications()"
+            size="small"
+          ></p-button>
+        </div>
+      </p-overlayPanel>
       <p-button
         severity="secondary"
         icon="pi pi-cog text-900 text-lg"
         [text]="true"
-        styleClass="h-2rem w-2rem"
+        styleClass="h-2rem w-2rem -ml-1"
       />
+      <p-button
+        severity="secondary"
+        icon="pi pi-bell text-900 text-lg"
+        [text]="true"
+        styleClass="h-2rem w-2rem relative"
+        (onClick)="op.toggle($event)"
+      >
+        @if (unreadCount) {
+        <p-badge
+          [value]="unreadCount"
+          severity="danger"
+          styleClass="absolute top-0 right-0"
+        />
+        }
+      </p-button>
     </div>
     <div
       (click)="layoutService.state.profileSidebarVisible=false"
@@ -56,12 +109,14 @@
           styleClass="h-2rem w-2rem bg-white border-white"
           severity="contrast"
           [outlined]="true"
-          icon="pi  pi-upload"
+          icon="pi pi-upload"
+          (onClick)="redirectTo('incomes-list')"
         />
         <p-button
           styleClass="h-2rem w-2rem bg-white border-white"
           severity="contrast"
           icon="pi text-900 pi-download"
+          (onClick)="redirectTo('retreats-list')"
         />
       </div>
       <div
@@ -139,56 +194,6 @@
       </div>
     </div>
     }
-    <!-- <div
-      class="w-full flex gap-3 align-items-center mt-1 p-2 border-round-lg"
-      [ngClass]="!task.is_completed ? 'cursor-pointer hover:surface-100':''"
-    >
-      <i
-        [class]="task.is_completed ? 'pi pi-check-circle text-3xl text-primary':'pi pi-circle text-3xl text-400'"
-      ></i>
-      <div class="flex w-full flex-column gap-1 pr-2">
-        @if (task.type_task[0] === 'Monetaria') {
-        <div class="text-xxs">
-          {{ task.name + ' - codigo: ' + task.orderId }}
-        </div>
-        }@else {
-        <div class="text-xxs">{{ task.name }}</div>
-        }
-        <div class="flex w-full justify-content-between gap-2">
-          <div class="text-xxs text-500">
-            {{ task.is_completed ? 'Completado':'En Proceso'}}
-          </div>
-          <div class="text-xs font-semibold">
-            +<span class="text-primary">$</span>{{ task.credit }}
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- <div
-      class="w-full flex gap-3 align-items-center mt-1 p-2 border-round-lg"
-      [ngClass]="!task.is_completed ? 'cursor-pointer hover:surface-100':''"
-    >
-      <i
-        [class]="task.is_completed ? 'pi pi-check-circle text-3xl text-primary':'pi pi-circle text-3xl text-400'"
-      ></i>
-      <div class="flex w-full flex-column gap-1 pr-2">
-        @if (task.type_task[0] === 'Monetaria') {
-        <div class="text-xxs">
-          {{ task.name + ' - codigo: ' + task.orderId }}
-        </div>
-        }@else {
-        <div class="text-xxs">{{ task.name }}</div>
-        }
-        <div class="flex w-full justify-content-between gap-2">
-          <div class="text-xxs text-500">
-            {{ task.is_completed ? 'Completado':'En Proceso'}}
-          </div>
-          <div class="text-xs font-semibold">
-            +<span class="text-primary">$</span>{{ task.credit }}
-          </div>
-        </div>
-      </div>
-    </div> -->
 
     <p-divider />
     <div class="font-bold flex justify-content-between w-full">
@@ -206,7 +211,12 @@
       styleClass="w-full text-sm"
       label="¿Tienes un cupón?"
     />
-    <p-button styleClass="w-full text-sm" label="Cerrar sesión" />
+    <p-button
+      styleClass="w-full text-sm"
+      label="Cerrar sesión"
+      icon="pi pi-sign-out"
+      (onClick)="showCloseSesion()"
+    />
   </div>
 </div>
 <p-toast position="top-center"></p-toast>

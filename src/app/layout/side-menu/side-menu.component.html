@@ -7,7 +7,7 @@
     >
       Venta Max
     </div> -->
-    <div class="w-full flex align-items-center  my-4">
+    <div class="w-full flex align-items-center my-4">
       <img
         src="../../../assets/brand/logo-name.png"
         alt="venta-max-logo"
@@ -18,7 +18,6 @@
         class="bg-primary border-circle mt-6 -ml-3"
       ></div>
     </div>
-
   </div>
   <div class="w-full flex flex-column gap-3 px-3">
     <div
@@ -55,11 +54,20 @@
     </div>
     } @else {
     <div
-      (click)="showCloseSesion()"
-      class="w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4"
+      (click)="redirectTo('incomes-list')"
+      [ngClass]="router.url.includes('incomes-list') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
+      class="w-full cursor-pointer border-round-xl h-3rem flex align-items-center gap-3 pl-4"
     >
-      <i class="pi pi-sign-out text-500 font-medium"></i>
-      <div class="text-500 font-medium">Cerrar sesión</div>
+      <i class="pi pi-history font-medium"></i>
+      <div class="font-medium">Historial </div>
+    </div>
+    <div
+      (click)="redirectTo('retreats-list')"
+      [ngClass]="router.url.includes('retreats-list') ? 'bg-primary hover:bg-primary-400 text-white':'hover:surface-100 text-500'"
+      class="w-full cursor-pointer border-round-xl h-3rem flex align-items-center gap-3 pl-4"
+    >
+      <i class="pi pi-money-bill font-medium"></i>
+      <div class="font-medium">Retiros </div>
     </div>
     }
 

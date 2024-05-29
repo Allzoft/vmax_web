@@ -23,6 +23,20 @@ export const routes: Routes = [
           import('./pages/orders-list/orders-list.component'),
       },
       {
+        path: 'retreats-list',
+        canActivate: [LoginGuard],
+        title: 'Lista de Retiros',
+        loadComponent: () =>
+          import('./pages/retreats-list/retreats-list.component'),
+      },
+      {
+        path: 'incomes-list',
+        canActivate: [LoginGuard],
+        title: 'Lista de Retiros',
+        loadComponent: () =>
+          import('./pages/incomes-list/incomes-list.component'),
+      },
+      {
         path: 'support',
         canActivate: [LoginGuard],
         title: 'Soporte',

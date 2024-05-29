@@ -1,0 +1,21 @@
+<div class="flex flex-column gap-3">
+  <span class="p-float-label flex w-full p-input-icon-left">
+    <i class="pi pi-money-bill"></i>
+    <input
+      id="money-bill"
+      type="number"
+      [(ngModel)]="amount"
+      pInputText
+      class="h-3rem w-full"
+    />
+    <label for="email">Monto</label>
+  </span>
+  <p-button
+    icon="pi pi-check"
+    label="Enviar solicitud"
+    severity="success"
+    styleClass="w-full"
+    (onClick)="foundAccount()"
+  ></p-button>
+</div>
+<p-toast position="top-center"></p-toast>

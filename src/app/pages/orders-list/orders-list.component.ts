@@ -25,7 +25,6 @@ import { LayoutService } from '../../services/layout.service';
     ButtonModule,
     TagModule,
     FormsModule,
-    FormsModule,
     SelectButtonModule,
     DataViewModule,
     BadgeModule,
