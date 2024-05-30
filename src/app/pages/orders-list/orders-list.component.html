@@ -13,7 +13,11 @@
     />
   </div>
 
-  <p-dataView #dv [value]="ordersFilter" emptyMessage="No se encontraron ordenes">
+  <p-dataView
+    #dv
+    [value]="ordersFilter"
+    emptyMessage="No se encontraron ordenes"
+  >
     <ng-template pTemplate="list" let-orders>
       <div class="grid grid-nogutter">
         <div
@@ -110,7 +114,8 @@
                 >
                   {{ order.uuid }}
                 </div>
-                @if (order.stateIdState === 1) {
+                @if (order.stateIdState === 1 && order.phaseIdPhase ===
+                user.phaseIdPhase) {
                 <div
                   class="flex flex-row-reverse md:flex-row w-full md:w-auto gap-2"
                 >
@@ -121,6 +126,20 @@
                     label="Enviar fondos"
                     [loading]="order.loading"
                     (onClick)="payOrder(order)"
+                  />
+                </div>
+                } @if (order.stateIdState === 1 && order.phaseIdPhase !==
+                user.phaseIdPhase) {
+                <div
+                  class="flex flex-row-reverse md:flex-row w-full md:w-auto gap-2"
+                >
+                  <p-button
+                    icon="pi pi-shopping-cart"
+                    class="flex-auto md:flex-initial white-space-nowrap"
+                    styleClass="w-full"
+                    label="Enviar fondos"
+                    [severity]="'secondary'"
+                    (onClick)="showMessage(order)"
                   />
                 </div>
                 } @if (order.stateIdState === 2) {

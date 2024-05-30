@@ -204,39 +204,41 @@ export class UsersService {
   }
 
   public updateNotifications(): void {
-    const notificationsUnread = this.notifications.filter(
-      (notification) => notification.isRead === 0
-    );
+    setTimeout(() => {
+      const notificationsUnread = this.notifications.filter(
+        (notification) => notification.isRead === 0
+      );
 
-    const updateRequests = notificationsUnread.map((notification) => {
-      const updateNotification: Partial<Notification> = {
-        isRead: 1,
-        tittle: notification.tittle,
-        photo: notification.photo,
-      };
+      const updateRequests = notificationsUnread.map((notification) => {
+        const updateNotification: Partial<Notification> = {
+          isRead: 1,
+          tittle: notification.tittle,
+          photo: notification.photo,
+        };
 
-      return this.http
-        .patch<Notification>(
-          `${environment.url_api}/notifications/${notification.id_notification}`,
-          updateNotification
-        )
-        .toPromise()
-        .then((res) => {
-          const index = this.notifications.findIndex(
-            (n) => n.id_notification === res!.id_notification
-          );
-          if (index !== -1) {
-            this.notifications[index] = res!;
-          }
-        })
-        .catch((error) => {
-          console.error('Error updating notification:', error);
-        });
-    });
+        return this.http
+          .patch<Notification>(
+            `${environment.url_api}/notifications/${notification.id_notification}`,
+            updateNotification
+          )
+          .toPromise()
+          .then((res) => {
+            const index = this.notifications.findIndex(
+              (n) => n.id_notification === res!.id_notification
+            );
+            if (index !== -1) {
+              this.notifications[index] = res!;
+            }
+          })
+          .catch((error) => {
+            console.error('Error updating notification:', error);
+          });
+      });
 
-    Promise.all(updateRequests).then(() => {
-      console.log('All notifications updated successfully');
-    });
+      Promise.all(updateRequests).then(() => {
+        console.log('All notifications updated successfully');
+      });
+    }, 3000);
   }
 
   public postUser(user: Partial<User>): Observable<User> {

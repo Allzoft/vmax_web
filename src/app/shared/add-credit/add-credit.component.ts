@@ -56,7 +56,7 @@ export class AddCreditComponent {
       this.messageService.add({
         severity: 'success',
         summary: 'Solicitud exitosa',
-        detail: '¡Solicitud de fondeo de USD' + this.amount + ' exitos!',
+        detail: '¡Solicitud de fondeo de USD' + this.amount + ' exitosa!',
       }),
       setTimeout(() => {
         this.ref.close(res);

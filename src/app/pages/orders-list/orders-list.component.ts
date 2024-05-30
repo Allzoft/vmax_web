@@ -113,4 +113,12 @@ export default class OrdersListComponent implements OnInit {
       }
     );
   }
+
+  public showMessage(order: Order) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Actualize su VIP',
+      detail: 'Porfavor actualize su VIP para poder continuar'
+    })
+  }
 }

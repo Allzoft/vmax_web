@@ -36,7 +36,9 @@
         ></i>
       </div>
       <div class="flex flex-column justify-content-between py-2 gap-1">
-        <div class="font-semibold text-xl">{{ credit.type_credit[0] }}</div>
+        <div class="font-semibold text-xl">
+          {{ credit.type_credit[0] + ' - código: ' + credit.id_credit }}
+        </div>
         <div
           *ngFor="let item of [
             { label: 'Importe anterior:', value: credit.previous_amount },

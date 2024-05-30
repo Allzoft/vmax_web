@@ -13,6 +13,7 @@ import { ToastModule } from 'primeng/toast';
 import { Order } from '../../interfaces/order.interface';
 import { Router } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
+type VipEarningsKeys = 'vip_1_earnings' | 'vip_2_earnings' | 'vip_3_earnings';
 
 @Component({
   selector: 'app-profile-menu',
@@ -108,6 +109,23 @@ export class ProfileMenuComponent {
     }
   }
 
+  get currentGains(): number {
+    // Verificar que user existe y tiene una fase válida
+    if (!this.user || !this.user.wallet) {
+      throw new Error('Usuario no definido o sin billetera');
+    }
+
+    const vipNumber: VipEarningsKeys =
+      `vip_${this.user.phaseIdPhase}_earnings` as VipEarningsKeys;
+
+    // Verificar que la propiedad existe en wallet
+    if (!(vipNumber in this.user.wallet)) {
+      throw new Error(`La propiedad ${vipNumber} no existe en Wallet`);
+    }
+
+    return this.user.wallet[vipNumber];
+  }
+
   public redirectOrder() {
     this.router.navigateByUrl('orders-list');
   }
@@ -145,5 +163,9 @@ export class ProfileMenuComponent {
       0
     );
     return count;
+  }
+
+  public updateVIP() {
+
   }
 }

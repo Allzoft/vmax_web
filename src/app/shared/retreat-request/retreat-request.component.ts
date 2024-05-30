@@ -51,15 +51,8 @@ export class RetreatRequestComponent {
       return;
     }
 
-    let vipNumber: string = 'vip_1_earnings'; // Corregido el nombre de la propiedad
+    const vipNumber: string = `vip_${this.user.phaseIdPhase}_earnings`; // Corregido el nombre de la propiedad
 
-    if (this.user.phaseIdPhase === 2) {
-      vipNumber = 'vip_2_earnings';
-    }
-
-    if (this.user.phaseIdPhase === 3) {
-      vipNumber = 'vip_3_earnings';
-    }
 
     if (this.amount > +this.user.wallet[vipNumber as keyof Wallet]) {
       this.messageService.add({
