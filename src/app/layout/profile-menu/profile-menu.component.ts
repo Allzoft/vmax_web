@@ -86,6 +86,8 @@ export class ProfileMenuComponent {
       (order) => order.stateIdState === 1
     );
 
+    if (!indexInProcess) return null;
+
     return this.user!.phase!.orders![indexInProcess!];
   }
 
@@ -103,16 +105,17 @@ export class ProfileMenuComponent {
         (order) => order.stateIdState === 1
       );
 
+      if (!indexInPendding) return null;
+
       const lastOrder = this.user!.phase!.orders![indexInPendding! - 1];
 
       return lastOrder ? lastOrder : null;
     }
   }
 
-  get currentGains(): number {
-    // Verificar que user existe y tiene una fase válida
+  get currentGains(): number | null {
     if (!this.user || !this.user.wallet) {
-      throw new Error('Usuario no definido o sin billetera');
+      return null;
     }
 
     const vipNumber: VipEarningsKeys =
@@ -165,7 +168,5 @@ export class ProfileMenuComponent {
     return count;
   }
 
-  public updateVIP() {
-
-  }
+  public updateVIP() {}
 }
