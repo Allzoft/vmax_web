@@ -33,6 +33,8 @@ export class AddCreditComponent {
   public userService = inject(UsersService);
   public ref = inject(DynamicDialogRef);
 
+  public user = this.userService.user
+
   public amount = 0;
 
   public foundAccount() {
@@ -48,7 +50,7 @@ export class AddCreditComponent {
       credit_amount: this.amount,
       stateIdState: 4,
       type_credit: 'Fondeo',
-      walletIdWallet: this.userService.user?.user.walletId,
+      walletIdWallet: this.user()!.walletId,
       credit_date: new Date(),
     };
 

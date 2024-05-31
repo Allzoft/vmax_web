@@ -32,6 +32,14 @@ import { LayoutService } from '../../services/layout.service';
   ],
   providers: [MessageService],
   templateUrl: './orders-list.component.html',
+  styles: `
+
+    .price-style {
+      border-radius: 30px;
+      box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+    }
+
+  `,
 })
 export default class OrdersListComponent implements OnInit {
   public userService = inject(UsersService);
@@ -43,7 +51,7 @@ export default class OrdersListComponent implements OnInit {
   public ordersFilter: Order[] = [];
   public statesFilters: State[] = [];
 
-  public user = this.userService.user!.user;
+  public user = this.userService.user;
 
   ngOnInit(): void {
     this.statesService.getStatesByTpe('Order').subscribe((res) => {
@@ -79,11 +87,11 @@ export default class OrdersListComponent implements OnInit {
     order.loading = true;
     this.userService.payOrder(order.id_order).subscribe(
       (res) => {
-        console.log(res);
         order.loading = false;
         const index = this.orders.findIndex(
           (order) => order.id_order === res.order.id_order
         );
+        console.log('i:', index);
         this.orders[index] = res.order;
         const indexF = this.ordersFilter.findIndex(
           (order) => order.id_order === res.order.id_order
@@ -118,7 +126,7 @@ export default class OrdersListComponent implements OnInit {
     this.messageService.add({
       severity: 'warn',
       summary: 'Actualize su VIP',
-      detail: 'Porfavor actualize su VIP para poder continuar'
-    })
+      detail: 'Porfavor actualize su VIP para poder continuar',
+    });
   }
 }

@@ -1,4 +1,37 @@
-<div class="flex flex-column gap-3">
+<div class="flex flex-column gap-5">
+  <span class="p-float-label flex w-full p-input-icon-left mt-4">
+    <i class="pi pi-building-columns"></i>
+    <input
+      id="bank_name"
+      type="text"
+      [(ngModel)]="bank_name"
+      pInputText
+      class="h-3rem w-full"
+    />
+    <label for="email">Nombre de banco</label>
+  </span>
+  <span class="p-float-label flex w-full p-input-icon-left">
+    <i class="pi pi-key"></i>
+    <input
+      id="account_code"
+      type="text"
+      [(ngModel)]="account_code"
+      pInputText
+      class="h-3rem w-full"
+    />
+    <label for="email">Número o codigo de cuenta</label>
+  </span>
+  <span class="p-float-label flex w-full p-input-icon-left">
+    <i class="pi pi-user"></i>
+    <input
+      id="account_name"
+      type="text"
+      [(ngModel)]="account_name"
+      pInputText
+      class="h-3rem w-full"
+    />
+    <label for="email">Nombre de propietario</label>
+  </span>
   <span class="p-float-label flex w-full p-input-icon-left">
     <i class="pi pi-money-bill"></i>
     <input

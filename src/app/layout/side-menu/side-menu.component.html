@@ -44,7 +44,7 @@
       <i class="pi pi-headphones font-medium"></i>
       <div class="font-medium">At. al cliente</div>
     </div>
-    @if (!userService.user) {
+    @if (!userService.user()) {
     <div
       (click)="showLogin()"
       class="w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4"

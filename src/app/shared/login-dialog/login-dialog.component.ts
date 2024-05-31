@@ -75,8 +75,6 @@ export class LoginDialogComponent {
 
     this.userService.logInUser(loginUser).subscribe(
       (resUser) => {
-        localStorage.setItem('user', JSON.stringify(resUser));
-
         if (this.loginForm.get('remember')!.value) {
           localStorage.setItem('email', this.loginForm.get('email')!.value);
         } else {
@@ -106,19 +104,6 @@ export class LoginDialogComponent {
       header: 'Registro de nuevo usuario',
       draggable: true,
       styleClass: 'w-11 md:w-4',
-    });
-    this.ref2.onDestroy.subscribe((resUser) => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Registro exitoso',
-        detail: `Te registraste exitosamente`,
-      });
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Inicia sesión',
-        detail: `Porfavor inicia sesión para continuar`,
-        life: 5000,
-      });
     });
   }
 }

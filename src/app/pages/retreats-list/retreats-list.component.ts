@@ -111,8 +111,8 @@ export default class RetreatsListComponent implements OnInit {
 
     this.ref.onClose.subscribe((res) => {
       if (res) {
-        this.retreats.unshift(res);
-        this.retreatsFilters.unshift(res);
+        this.retreats.unshift(res.retreat);
+        this.retreatsFilters.unshift(res.retreat);
       }
     });
   }

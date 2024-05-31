@@ -214,7 +214,7 @@
       }
     </ng-template>
   </p-carousel>
-  @if (layoutService.isMobile() && userService.user) {
+  @if (layoutService.isMobile() && userService.user()) {
   <div class="w-full flex flex-column gap-2 -mt-4 mb-4 px-2">
     <div class="font-bold text-xl pl-2">
       <i class="pi pi-wallet mr-2 text-xl font-semibold"></i>Tu balance

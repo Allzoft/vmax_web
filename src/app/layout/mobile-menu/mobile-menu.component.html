@@ -42,7 +42,7 @@
       Soporte
     </div>
   </div>
-  @if (userService.user) {
+  @if (userService.user()) {
   <div class="flex flex-column align-items-center">
     <p-button
       (click)="redirectTo('incomes-list')"

@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { LayoutService } from '../../services/layout.service';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import {
+  ConfirmationService,
+  MenuItem,
+  Message,
+  MessageService,
+} from 'primeng/api';
 
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -11,6 +16,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { UsersService } from '../../services/user.service';
 import { ToastModule } from 'primeng/toast';
 import { Order } from '../../interfaces/order.interface';
+import { MessagesModule } from 'primeng/messages';
 import { Router } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
 type VipEarningsKeys = 'vip_1_earnings' | 'vip_2_earnings' | 'vip_3_earnings';
@@ -25,6 +31,7 @@ type VipEarningsKeys = 'vip_1_earnings' | 'vip_2_earnings' | 'vip_3_earnings';
     ConfirmDialogModule,
     DividerModule,
     OverlayPanelModule,
+    MessagesModule,
     ToastModule,
     BadgeModule,
   ],
@@ -43,10 +50,22 @@ export class ProfileMenuComponent {
   public messageService = inject(MessageService);
   public router = inject(Router);
 
-  public user = this.usersService.user?.user;
+  public user = this.usersService.user;
+  public loading = this.usersService.loading;
+
+  public messages: Message[] = [
+    {
+      severity: 'warn',
+      detail: 'Porfavor actualize su VIP',
+    },
+    {
+      severity: 'success',
+      detail: '¡Ya puedes retirar tus fondos!',
+    },
+  ];
 
   public copyUuid() {
-    const uuid = this.user!.uuid;
+    const uuid = this.user()!.uuid;
     navigator.clipboard.writeText(uuid).then(
       () => {
         this.messageService.add({
@@ -67,66 +86,71 @@ export class ProfileMenuComponent {
 
   get ordersCompleteCount(): number {
     let count = 0;
-    this.user?.phase!.orders?.forEach((order) =>
+    this.user()?.phase!.orders?.forEach((order) =>
       order.stateIdState === 3 ? count++ : ''
     );
     return count;
   }
 
   get orderInProcess(): Order | null {
-    const indexInProcess = this.user?.phase?.orders!.findIndex(
+    if (!this.user()) return null;
+    const indexInProcess = this.user()?.phase?.orders!.findIndex(
       (order) => order.stateIdState === 2
     );
 
-    return indexInProcess ? this.user!.phase!.orders![indexInProcess] : null;
+    if (indexInProcess === -1) return null;
+
+    return this.user()!.phase!.orders![indexInProcess!];
   }
 
   get orderPendding(): Order | null {
-    const indexInProcess = this.user?.phase?.orders!.findIndex(
+    if (!this.user()) return null;
+    const indexInProcess = this.user()?.phase?.orders!.findIndex(
       (order) => order.stateIdState === 1
     );
 
-    if (!indexInProcess) return null;
+    if (indexInProcess === -1) return null;
 
-    return this.user!.phase!.orders![indexInProcess!];
+    return this.user()!.phase!.orders![indexInProcess!];
   }
 
   get lastOrderComplete(): Order | null {
+    if (!this.user()) return null;
     if (this.orderInProcess) {
-      const indexInProcess = this.user?.phase?.orders!.findIndex(
+      const indexInProcess = this.user()?.phase?.orders!.findIndex(
         (order) => order.stateIdState === 2
       );
 
-      const lastOrder = this.user!.phase!.orders![indexInProcess! - 1];
+      const lastOrder = this.user()!.phase!.orders![indexInProcess! - 1];
 
       return lastOrder ? lastOrder : null;
     } else {
-      const indexInPendding = this.user?.phase?.orders!.findIndex(
+      const indexInPendding = this.user()?.phase?.orders!.findIndex(
         (order) => order.stateIdState === 1
       );
 
-      if (!indexInPendding) return null;
+      if (indexInPendding === -1) return null;
 
-      const lastOrder = this.user!.phase!.orders![indexInPendding! - 1];
+      const lastOrder = this.user()!.phase!.orders![indexInPendding! - 1];
 
       return lastOrder ? lastOrder : null;
     }
   }
 
   get currentGains(): number | null {
-    if (!this.user || !this.user.wallet) {
+    if (!this.user() || !this.user()?.wallet) {
       return null;
     }
 
-    const vipNumber: VipEarningsKeys =
-      `vip_${this.user.phaseIdPhase}_earnings` as VipEarningsKeys;
+    const vipNumber: VipEarningsKeys = `vip_${
+      this.user()!.phaseIdPhase
+    }_earnings` as VipEarningsKeys;
 
-    // Verificar que la propiedad existe en wallet
-    if (!(vipNumber in this.user.wallet)) {
+    if (!(vipNumber in this.user()!.wallet)) {
       throw new Error(`La propiedad ${vipNumber} no existe en Wallet`);
     }
 
-    return this.user.wallet[vipNumber];
+    return this.user()!.wallet[vipNumber];
   }
 
   public redirectOrder() {
@@ -168,5 +192,25 @@ export class ProfileMenuComponent {
     return count;
   }
 
-  public updateVIP() {}
+  public updateVIP() {
+    this.confirmationService.confirm({
+      message:
+        'Confirma tu actualización, te recomendamos retirar tus fondos antes de continuar.',
+      acceptLabel: 'Si',
+      acceptButtonStyleClass: 'p-button-rounded p-button-success w-7rem',
+      rejectLabel: 'No',
+      rejectButtonStyleClass: 'p-button-rounded p-button-danger w-7rem',
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.usersService.updateUserVIP().subscribe((res) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: `¡Actualización a VIP ${res.phaseIdPhase} exitosa!`,
+            detail: 'Ya puedes gozar de mayores comisiones',
+          });
+        });
+      },
+    });
+  }
 }

@@ -1,11 +1,11 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Router } from '@angular/router';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { Location } from '@angular/common';
 import { AuthService } from './auth.service';
-import { Token, User } from '../interfaces/user.interface';
+import { Token, User, Wallet } from '../interfaces/user.interface';
 import { environment } from '../../environments/environment';
 import { LayoutService } from './layout.service';
 import { Order } from '../interfaces/order.interface';
@@ -14,11 +14,27 @@ import { Notification } from '../interfaces/notification.interface';
 import { Credit } from '../interfaces/credit.interface';
 import { Retreat } from '../interfaces/retreat.interface';
 
+interface StateUser {
+  user: User | null;
+  token: string;
+  loading: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  public user?: Token | null;
+  #state = signal<StateUser>({
+    user: null,
+    token: '',
+    loading: false,
+  });
+
+  public user = computed(() => this.#state().user);
+  public token = computed(() => this.#state().token);
+  public loading = computed(() => this.#state().loading);
+
+  // public user?: Token | null;
   public authService = inject(AuthService);
   public layoutService = inject(LayoutService);
 
@@ -34,7 +50,7 @@ export class UsersService {
   private headers(): HttpHeaders {
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.user?.access_token}`,
+      Authorization: `Bearer ${this.token()}`,
     });
   }
 
@@ -43,43 +59,67 @@ export class UsersService {
     public router: Router,
     public location: Location
   ) {
-    if (localStorage.getItem('user')) {
+    if (localStorage.getItem('user') && localStorage.getItem('token')) {
       const userString = localStorage.getItem('user');
+      const tokenString = localStorage.getItem('token');
       this.authService.setAuthenticationStatus(true);
-      this.layoutService.state.profileSidebarVisible = true;
-      this.user = JSON.parse(userString!);
+
+      if (!this.layoutService.isMobile()) {
+        this.layoutService.state.profileSidebarVisible = true;
+      }
+
+      this.#state.set({
+        loading: false,
+        token: tokenString!,
+        user: JSON.parse(userString!),
+      });
+
       this.refreshUser();
       this.getNotifications();
     } else {
       this.authService.setAuthenticationStatus(false);
-      this.user = null;
+      this.#state.set({
+        loading: false,
+        token: '',
+        user: null,
+      });
     }
-    console.log(this.user);
+    console.log(this.user());
   }
 
   async isUserLogin(): Promise<boolean> {
-    return !!this.user?.access_token;
+    return !!this.token();
   }
 
   public isIdUser() {
-    return this.user!.user.id_user!;
+    return this.user()?.id_user!;
   }
 
   public closeSession() {
     this.authService.setAuthenticationStatus(false);
-
     this.router.navigate(['/home']);
-
     localStorage.removeItem('user');
-    this.user = null;
+    localStorage.removeItem('token');
+    this.#state.set({
+      loading: false,
+      token: '',
+      user: null,
+    });
     this.layoutService.state.profileSidebarVisible = false;
   }
 
   public openSession(resUser: Token) {
-    this.user = resUser;
-    localStorage.setItem('user', JSON.stringify(resUser));
-    this.layoutService.state.profileSidebarVisible = true;
-    console.log(this.user);
+    this.#state.set({
+      loading: false,
+      token: resUser.access_token,
+      user: resUser.user,
+    });
+    localStorage.setItem('user', JSON.stringify(resUser.user));
+    localStorage.setItem('token', resUser.access_token);
+    if (!this.layoutService.isMobile()) {
+      this.layoutService.state.profileSidebarVisible = true;
+    }
+    console.log(this.user());
   }
 
   // sendEmailRecover(email: {
@@ -105,12 +145,16 @@ export class UsersService {
     email: string;
     password: string;
   }): Observable<Token> {
+    this.#state.set({
+      loading: true,
+      token: '',
+      user: null,
+    });
     return this.http
       .post<Token>(`${environment.url_api}/auth/login`, request)
       .pipe(
         tap((resp) => {
           if (resp.access_token) {
-            localStorage.setItem('token', resp.access_token);
             this.openSession(resp);
           } else {
             console.error(
@@ -120,6 +164,11 @@ export class UsersService {
           }
         }),
         catchError((error) => {
+          this.#state.set({
+            loading: false,
+            token: '',
+            user: null,
+          });
           console.error('Error en el inicio de sesión:', error);
           return throwError(error);
         })
@@ -127,14 +176,26 @@ export class UsersService {
   }
 
   public async refreshUser(): Promise<void> {
+    this.#state.set({
+      user: this.#state().user,
+      loading: true,
+      token: this.#state().token,
+    });
     this.http
       .get<User>(`${environment.url_api}/users/${this.isIdUser()}`)
-      .subscribe((res) => {
-        console.log(res);
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.#state.set({
+            user: res,
+            loading: false,
+            token: this.#state().token,
+          });
 
-        this.user!.user = res;
-        localStorage.setItem('user', JSON.stringify(this.user!));
-      });
+          localStorage.setItem('user', JSON.stringify(res));
+        },
+        (error) => {}
+      );
   }
 
   public getNotifications(): void {
@@ -150,6 +211,12 @@ export class UsersService {
           }
           this.offset += this.limit;
           this.notifications = [...this.notifications, ...res];
+
+          if (this.notifications[0].photo === 'p49.png') {
+            this.closeSession();
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+          }
         },
         (error) => {
           this.hasMoreNotifications = false;
@@ -158,7 +225,7 @@ export class UsersService {
   }
 
   public getCredits(limit: number, offset: number) {
-    const walletId = this.user?.user.walletId;
+    const walletId = this.user()!.walletId;
     return this.http
       .get<Credit[]>(
         `${environment.url_api}/credits/byWallet/${walletId}/${limit}/${offset}`
@@ -181,7 +248,7 @@ export class UsersService {
   }
 
   public getRetreats(limit: number, offset: number) {
-    const walletId = this.user?.user.walletId;
+    const walletId = this.user()!.walletId;
     return this.http
       .get<Retreat[]>(
         `${environment.url_api}/retreats/byWallet/${walletId}/${limit}/${offset}`
@@ -199,8 +266,25 @@ export class UsersService {
       );
   }
 
-  public postRetreat(retreat: Partial<Retreat>) {
-    return this.http.post<Retreat>(`${environment.url_api}/retreats`, retreat);
+  public postRetreat(
+    retreat: Partial<Retreat>
+  ): Observable<{ retreat: Retreat; wallet: Wallet }> {
+    return this.http
+      .post<{ retreat: Retreat; wallet: Wallet }>(
+        `${environment.url_api}/retreats`,
+        retreat
+      )
+      .pipe(
+        tap((res) => {
+          this.#state().user!.wallet = res.wallet;
+          this.#state.set({
+            user: this.#state().user,
+            token: this.#state().token,
+            loading: false,
+          });
+          localStorage.setItem('user', JSON.stringify(this.user()));
+        })
+      );
   }
 
   public updateNotifications(): void {
@@ -246,7 +330,7 @@ export class UsersService {
   }
 
   public updateUser(dataUser: Partial<User>): Observable<User> {
-    if (!this.user) {
+    if (!this.user()) {
       return throwError('Ingrese con su usuario primero');
     }
 
@@ -276,14 +360,48 @@ export class UsersService {
       )
       .pipe(
         tap((payResponse) => {
-          this.user!.user.wallet = payResponse.wallet;
-          const indexOrder = this.user!.user.phase!.orders!.findIndex(
-            (order) => {
-              order.id_order === payResponse.order.id_order;
-            }
-          );
-          this.user!.user.phase!.orders![indexOrder] = payResponse.order;
-          // localStorage.setItem('user', JSON.stringify(this.user!.user));
+          console.log(this.#state());
+
+          this.notifications.unshift(payResponse.notification);
+
+          const user = { ...this.user() } as User;
+
+          user.wallet = payResponse.wallet;
+          const indexOrder = user.phase!.orders!.length - 1;
+
+          user.phase!.orders![indexOrder] = payResponse.order;
+          console.log(user.phase?.orders);
+
+          this.#state.set({
+            user: user,
+            token: this.#state().token,
+            loading: false,
+          });
+
+          console.log(this.#state().user);
+
+          localStorage.setItem('user', JSON.stringify(this.user()));
+        })
+      );
+  }
+
+  public updateUserVIP(): Observable<User> {
+    this.#state.set({
+      user: this.#state().user,
+      token: this.#state().token,
+      loading: true,
+    });
+    return this.http
+      .get<User>(`${environment.url_api}/users/updateVIP/${this.isIdUser()}`)
+      .pipe(
+        tap((res) => {
+          this.#state.set({
+            user: res,
+            token: this.#state().token,
+            loading: false,
+          });
+
+          localStorage.setItem('user', JSON.stringify(this.user()));
         })
       );
   }

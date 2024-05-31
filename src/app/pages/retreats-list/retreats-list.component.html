@@ -30,14 +30,21 @@
         alt="svg"
         class="w-4 md:w-2 absolute right-0 opacity-40 bottom-0 -mb-3 -mr-7 md:mr-0"
       />
-      <div class="w-2 flex align-items-center justify-content-center">
+      <div class="w-2 relative flex align-items-center justify-content-center">
         @if (retreat.stateIdState === 6) {
-        <i class="pi pi-circle-fill text-6xl text-200 ml-3"></i>
+        <i class="pi pi-circle text-7xl text-200 ml-3"></i>
         } @if (retreat.stateIdState === 7 ) {
-        <i class="pi pi-spin pi-spinner text-6xl text-blue-400 ml-3"></i>
+        <i class="pi pi-spin pi-spinner text-7xl text-blue-400 ml-3"></i>
         } @if (retreat.stateIdState === 8) {
-        <i class="pi pi-check-circle text-6xl text-primary ml-3"></i>
+        <i class="pi pi-check-circle text-7xl text-primary ml-3"></i>
         }
+        <p-badge
+          [value]="retreat.id_retreat"
+          class="absolute"
+          severity="secondary"
+          [style.top.px]="4"
+          [style.right.px]="4"
+        />
       </div>
       <div class="flex flex-column justify-content-between py-2 gap-1">
         <div class="flex gap-1 text-sm align-items-center">
@@ -68,8 +75,14 @@
     </div>
     } @empty {
     <div class="w-full flex flex-column align-items-center gap-2">
-      <div class="w-full text-800 text-center">Aun no hay movimientos registrados</div>
-      <img src="../../../assets/empty.svg" alt="empty-list" class="w-6 opacity-40" />
+      <div class="w-full text-800 text-center">
+        Aun no hay movimientos registrados
+      </div>
+      <img
+        src="../../../assets/empty.svg"
+        alt="empty-list"
+        class="w-6 opacity-40"
+      />
     </div>
     }
   </div>

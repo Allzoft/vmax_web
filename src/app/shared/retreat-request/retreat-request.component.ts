@@ -34,15 +34,18 @@ export class RetreatRequestComponent {
   public userService = inject(UsersService);
   public ref = inject(DynamicDialogRef);
 
-  public user = this.userService.user!.user;
+  public user = this.userService.user;
 
   public amount = 0;
+  public bank_name = '';
+  public account_name = '';
+  public account_code = '';
 
   public foundAccount() {
-    const ordersComplete = this.user.phase?.orders?.filter(
+    const ordersComplete = this.user()!.phase?.orders?.filter(
       (order) => order.stateIdState === 3
     ).length;
-    if (ordersComplete !== this.user.phase?.task_number) {
+    if (ordersComplete !== this.user()!.phase?.task_number) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -51,26 +54,46 @@ export class RetreatRequestComponent {
       return;
     }
 
-    const vipNumber: string = `vip_${this.user.phaseIdPhase}_earnings`; // Corregido el nombre de la propiedad
+    if (!this.bank_name || !this.account_code || !this.account_name) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Completa todos los campos de retiro',
+      });
+      return;
+    }
 
+    const vipNumber: string = `vip_${this.user()!.phaseIdPhase}_earnings`; // Corregido el nombre de la propiedad
 
-    if (this.amount > +this.user.wallet[vipNumber as keyof Wallet]) {
+    if (this.amount > +this.user()!.wallet.balance) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: `El retiro no puede ser mayor a tu balance`,
+      });
+      return;
+    }
+
+    if (this.amount > +this.user()!.wallet[vipNumber as keyof Wallet]) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
         detail: `El retiro no puede ser mayor a tus ganancias en VIP ${
-          this.user.phaseIdPhase
+          this.user()!.phaseIdPhase
         }. El monto no puede superar los USD ${
-          this.user.wallet[vipNumber as keyof Wallet]
+          this.user()!.wallet[vipNumber as keyof Wallet]
         }`,
       });
       return;
     }
 
     const newRetreat: Partial<Retreat> = {
+      bank_name: this.bank_name,
+      account_name: this.account_name,
+      account_code: this.account_code,
       total_retreat: this.amount,
       retreat_date: new Date(),
-      walletIdWallet: this.userService.user!.user.walletId,
+      walletIdWallet: this.userService.user()!.walletId,
       stateIdState: 6,
     };
 

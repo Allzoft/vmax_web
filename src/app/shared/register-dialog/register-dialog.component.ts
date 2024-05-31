@@ -95,7 +95,20 @@ export class RegisterDialogComponent {
     };
     this.usersService.postUser(newUser).subscribe(
       (resUser) => {
-        this.ref.destroy();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Registro exitoso',
+          detail: `Te registraste exitosamente`,
+        });
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Inicia sesión',
+          detail: `Porfavor inicia sesión para continuar`,
+          life: 3000,
+        });
+        setTimeout(() => {
+          this.ref.destroy();
+        }, 3000);
       },
       (error) => {
         this.messageService.add({
