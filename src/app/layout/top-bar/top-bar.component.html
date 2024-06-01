@@ -30,6 +30,67 @@
     <div class="flex gap-2 align-items-center -mt-5 mr-1 md:m-0">
       <i class="pi pi-shopping-cart text-xl md:text-2xl text-primary mr-3"></i>
 
+      @if (layoutService.isMobile()) {
+      <p-button
+        icon="pi pi-bell text-lg"
+        [text]="true"
+        styleClass="h-2rem w-2rem relative"
+        (onClick)="op.toggle($event)"
+      >
+        @if (unreadCount) {
+        <p-badge
+          [value]="unreadCount"
+          severity="danger"
+          styleClass="absolute top-0 right-0"
+        />
+        }
+      </p-button>
+      <p-overlayPanel (onShow)="userService.updateNotifications()" #op>
+        <div
+          class="flex flex-column gap-3 align-items-center w-21rem md:w-20rem"
+        >
+          @for (notification of userService.notifications; track $index) {
+          <div
+            class="w-full border-round-xl hover:surface-200 flex gap-3 px-2 h-6rem"
+            [ngClass]="notification.isRead ? 'bg-white': 'surface-100'"
+          >
+            <div
+              class="w-4 h-full py-1 overflow-hidden border-round-lg flex align-items-center justify-content-center"
+            >
+              <img
+                [src]="'../../../assets/products/' + notification.photo"
+                [alt]="notification.tittle"
+                class="h-full"
+              />
+            </div>
+            <div
+              class="relative w-full flex flex-column h-full justify-content-center gap-1"
+            >
+              <i
+                [style]="{ color: notification.color}"
+                [class]="'-ml-4  absolute bottom-0 left-0 text-xl pi pi-' + notification.icon"
+              ></i>
+              <div class="w-full text-700">{{ notification.tittle }}</div>
+              <div class="w-full text-400 text-xs">
+                {{ notification.description }}
+              </div>
+              <div class="w-full text-400 text-xs">
+                {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
+              </div>
+            </div>
+          </div>
+          }
+          <p-button
+            label="Mostrar más"
+            severity="secondary"
+            [disabled]="!userService.hasMoreNotifications"
+            (onClick)="userService.getNotifications()"
+            size="small"
+          ></p-button>
+        </div>
+      </p-overlayPanel>
+      }
+
       <p-button
         icon="pi pi-user"
         styleClass="h-2rem w-2rem text-2xl mr-1 border-round-lg border-1 border-primary"

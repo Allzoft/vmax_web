@@ -1,0 +1,83 @@
+<div class="w-full flex flex-column gap-3 mt-2 md:mt-0">
+  <div
+    class="relative mx-auto w-10rem h-10rem border-circle flex justify-content-center align-items-center"
+    style="background-color: #e4e0d8;"
+  >
+    @if (user()!.photo !== '') {
+    <img [src]="user()!.photo" alt="user-photo" class="w-full" />
+    } @else {
+    <span class="text-5xl text-white font-medium letter-spacing ml-1"
+      >{{ getInitials(user()!.name) | uppercase }}</span
+    >
+    }
+    <div
+      class="absolute bottom-0 border-round-3xl bg-primary -mb-2 border-3 border-white font-semibold  flex justify-content-center align-items-center"
+      style="width: 60px; height: 30px;"
+    >
+      {{ 'VIP ' + user()?.phaseIdPhase }}
+    </div>
+  </div>
+
+  <div class="flex w-full gap-3 md:gap-5">
+    <div class="flex flex-column gap-2 w-full">
+      <label for="username"><i class="pi text-base pi-user"></i> Nombre</label>
+      <input
+        id="username"
+        type="text"
+        pInputText
+        placeholder="Nombre del cliente"
+        [(ngModel)]="user()!.name"
+        class="w-full p-inputtext-sm"
+        [ngClass]="{'border-red-400': user()!.name.length === 0}"
+        [ngClass]="{'border-red-400': inputsDirt.name}"
+      />
+    </div>
+  </div>
+  <div class="flex flex-column md:flex-row w-full gap-3 md:gap-5">
+    <div class="flex flex-column gap-2 w-full">
+      <label class="flex align-items-center" for="email"
+        ><i class="pi text-base pi-envelope mr-2"></i> Correo</label
+      >
+      <input
+        id="email"
+        type="text"
+        placeholder="Correo electrónico del cliente"
+        pInputText
+        [(ngModel)]="user()!.email"
+        class="w-full p-inputtext-sm"
+        [ngClass]="{'border-red-400': user()!.email.length === 0}"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-column gap-2 w-12  ml-0 mt-2 md:mt-0">
+    <label for="phone"><i class="pi pi-mobile"></i> Teléfono</label>
+    <div class="flex gap-2 w-full">
+      <input
+        id="code_country"
+        type="text"
+        pInputText
+        [(ngModel)]="user()!.code_country"
+        class="w-4 p-inputtext-sm"
+        [ngClass]="{'border-red-400': user()!.code_country.length === 0}"
+      />
+      <p-inputNumber
+        inputId="integeronly"
+        [useGrouping]="false"
+        [(ngModel)]="user()!.phone"
+        class="w-full"
+        [inputStyleClass]="inputsDirt.phone ? 'w-full p-inputtext-sm border-red-400' : 'w-full p-inputtext-sm'"
+        styleClass="w-full"
+      />
+    </div>
+  </div>
+</div>
+<div class="w-full justify-content-end mt-4">
+  <p-button
+    styleClass="w-full"
+    [label]="'Actualizar cliente'"
+    severity="success"
+    [disabled]="true"
+    size="small"
+  ></p-button>
+</div>

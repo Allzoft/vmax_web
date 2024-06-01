@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
+import { UsersService } from '../services/user.service';
 
 @Component({
   selector: 'app-layout',
@@ -27,4 +28,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 })
 export default class LayoutComponent {
   public layoutService = inject(LayoutService);
+  public userService = inject(UsersService);
+
+  public user = this.userService.user;
 }

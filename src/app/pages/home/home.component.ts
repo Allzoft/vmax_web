@@ -7,6 +7,7 @@ import { DividerModule } from 'primeng/divider';
 import { LayoutService } from '../../services/layout.service';
 import { ButtonModule } from 'primeng/button';
 import { UsersService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 export interface Products {
   name: string;
@@ -61,6 +62,10 @@ export default class HomeComponent {
   public currentRetreats: CurrentRetreats[] = [];
   public layoutService = inject(LayoutService);
   public userService = inject(UsersService);
+  public router = inject(Router);
+
+  public user = this.userService.user;
+  public loading = this.userService.loading;
 
   public productsA: Products[] = [
     {
@@ -169,5 +174,9 @@ export default class HomeComponent {
     const username = Math.random().toString(36).substr(2, 2);
     const domain = randomProvider + '.com';
     return `${username}********@${domain}`;
+  }
+
+  public redirectTo(url: string) {
+    this.router.navigateByUrl(url);
   }
 }

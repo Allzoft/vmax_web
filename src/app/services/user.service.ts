@@ -214,8 +214,6 @@ export class UsersService {
 
           if (this.notifications[0].photo === 'p49.png') {
             this.closeSession();
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
           }
         },
         (error) => {

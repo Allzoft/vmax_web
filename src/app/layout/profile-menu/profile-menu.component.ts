@@ -19,6 +19,8 @@ import { Order } from '../../interfaces/order.interface';
 import { MessagesModule } from 'primeng/messages';
 import { Router } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ClientDialogComponent } from '../../shared/client-dialog/client-dialog.component';
 type VipEarningsKeys = 'vip_1_earnings' | 'vip_2_earnings' | 'vip_3_earnings';
 
 @Component({
@@ -35,7 +37,12 @@ type VipEarningsKeys = 'vip_1_earnings' | 'vip_2_earnings' | 'vip_3_earnings';
     ToastModule,
     BadgeModule,
   ],
-  providers: [ConfirmationService, MessageService],
+  providers: [
+    ConfirmationService,
+    MessageService,
+    DialogService,
+    DynamicDialogConfig,
+  ],
   templateUrl: './profile-menu.component.html',
   styles: `
   .text-xxs {
@@ -49,6 +56,11 @@ export class ProfileMenuComponent {
   public layoutService = inject(LayoutService);
   public messageService = inject(MessageService);
   public router = inject(Router);
+
+  public configRef = inject(DynamicDialogConfig);
+  public dialogService = inject(DialogService);
+
+  public ref: DynamicDialogRef | undefined;
 
   public user = this.usersService.user;
   public loading = this.usersService.loading;
@@ -211,6 +223,14 @@ export class ProfileMenuComponent {
           });
         });
       },
+    });
+  }
+
+  public showInfoUser(){
+    this.ref = this.dialogService.open(ClientDialogComponent, {
+      header: 'Informacion sobre el usuario',
+      draggable: true,
+      styleClass: 'w-11 md:w-7',
     });
   }
 }

@@ -14,6 +14,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { BadgeModule } from 'primeng/badge';
 import { ToastModule } from 'primeng/toast';
+import { SkeletonModule } from 'primeng/skeleton';
 import { MessageService } from 'primeng/api';
 import { LayoutService } from '../../services/layout.service';
 
@@ -28,6 +29,7 @@ import { LayoutService } from '../../services/layout.service';
     SelectButtonModule,
     DataViewModule,
     BadgeModule,
+    SkeletonModule,
     ToastModule,
   ],
   providers: [MessageService],
@@ -51,6 +53,8 @@ export default class OrdersListComponent implements OnInit {
   public ordersFilter: Order[] = [];
   public statesFilters: State[] = [];
 
+  public skeletons = [1,2,3]
+  public loading: boolean = false;
   public user = this.userService.user;
 
   ngOnInit(): void {
@@ -67,10 +71,12 @@ export default class OrdersListComponent implements OnInit {
       this.statesFilters.unshift(state);
       console.log(this.statesFilters);
     });
+    this.loading = true;
     this.userService.getOrdersByUser().subscribe((res) => {
       this.orders = res;
       this.ordersFilter = [...this.orders];
       console.log(res);
+      this.loading = false;
     });
   }
 

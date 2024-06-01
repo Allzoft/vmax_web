@@ -5,11 +5,19 @@ import { LayoutService } from '../../services/layout.service';
 import { UsersService } from '../../services/user.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { BadgeModule } from 'primeng/badge';
 
 @Component({
   selector: 'app-top-bar',
   standalone: true,
-  imports: [CommonModule, ButtonModule, ToastModule],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    ToastModule,
+    OverlayPanelModule,
+    BadgeModule,
+  ],
   providers: [MessageService],
   templateUrl: './top-bar.component.html',
 })
@@ -30,6 +38,14 @@ export class TopBarComponent {
       return;
     }
 
-    this.layoutService.toggleProfile()
+    this.layoutService.toggleProfile();
+  }
+
+  public get unreadCount(): number {
+    const count = this.userService.notifications.reduce(
+      (acc, notification) => acc + (notification.isRead ? 0 : 1),
+      0
+    );
+    return count;
   }
 }

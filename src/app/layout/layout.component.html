@@ -22,7 +22,6 @@
     }
   </div>
   }
-
   <div
     class="'surface-200 transition-ease-in-out transition-duration-500'"
     [ngClass]="{
@@ -33,10 +32,10 @@
   >
     <app-profile-menu
       [ngClass]="{
-      'hidden': !layoutService.state.profileSidebarVisible && !layoutService.isMobile() || !layoutService.state.profileSidebarVisible && layoutService.isMobile(),
-      'w-3': layoutService.state.profileSidebarVisible && !layoutService.isMobile(),
-      'w-12': layoutService.state.profileSidebarVisible && layoutService.isMobile()
-    }"
+        'hidden': !layoutService.state.profileSidebarVisible && !layoutService.isMobile() || !layoutService.state.profileSidebarVisible && layoutService.isMobile(),
+        'w-3': layoutService.state.profileSidebarVisible && !layoutService.isMobile(),
+        'w-12': layoutService.state.profileSidebarVisible && layoutService.isMobile()
+      }"
     />
   </div>
 </div>
