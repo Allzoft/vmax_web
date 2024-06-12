@@ -34,7 +34,7 @@ import { ToastModule } from 'primeng/toast';
     InputTextModule,
     ToastModule,
   ],
-  providers: [DialogService, DynamicDialogConfig, MessageService],
+  providers: [DialogService, MessageService],
   templateUrl: './register-dialog.component.html',
 })
 export class RegisterDialogComponent {
@@ -51,14 +51,21 @@ export class RegisterDialogComponent {
 
   constructor() {
     this.registerForm = this.formBuild.group({
+      uuidAffiliate: [''],
       name: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]],
       code_country: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       password2: ['', [Validators.required]],
     });
+    console.log(this.configRef);
+
+    if (this.configRef.data) {
+      this.registerForm.patchValue({
+        uuidAffiliate: this.configRef.data.uuid
+      });
+    }
   }
 
   async newAccount() {
@@ -86,13 +93,18 @@ export class RegisterDialogComponent {
       });
       return;
     }
-    const newUser: Partial<User> = {
+    const newUser: any = {
       name: this.registerForm.controls['name'].value,
       email: this.registerForm.controls['email'].value,
       password: this.registerForm.controls['password'].value,
       phone: this.registerForm.controls['phone'].value,
       code_country: this.registerForm.controls['code_country'].value,
     };
+
+    if (this.registerForm.controls['uuidAffiliate'].value) {
+      newUser.uuidAffiliate = this.registerForm.controls['uuidAffiliate'].value;
+    }
+
     this.usersService.postUser(newUser).subscribe(
       (resUser) => {
         this.messageService.add({

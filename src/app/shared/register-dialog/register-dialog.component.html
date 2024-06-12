@@ -18,20 +18,6 @@
 
       <div class="form-group w-full">
         <span class="p-float-label w-full p-input-icon-left">
-          <i class="pi pi-user"></i>
-          <input
-            id="lastname"
-            type="text"
-            pInputText
-            formControlName="lastname"
-            class="h-3rem w-full"
-            [ngClass]="{ 'dirty': registerForm.get('lastname')?.hasError('required') }"
-          />
-          <label for="lastname">Apellido</label>
-        </span>
-      </div>
-      <div class="form-group w-full">
-        <span class="p-float-label w-full p-input-icon-left">
           <i class="pi pi-envelope"></i>
           <input
             id="email"
@@ -74,6 +60,22 @@
           </span>
         </div>
       </div>
+      @if (this.configRef.data) {
+      <div class="form-group w-full">
+        <span class="p-float-label w-full p-input-icon-left">
+          <i class="pi pi-user-plus"></i>
+          <input
+            id="uuidAffiliate"
+            type="text"
+            pInputText
+            formControlName="uuidAffiliate"
+            class="h-3rem w-full"
+            [readOnly]="true"
+          />
+          <label for="uuidAffiliate">Codigo de afiliación</label>
+        </span>
+      </div>
+      }
       <div class="form-group w-full">
         <span class="p-float-label w-full p-input-icon-left">
           <i class="pi pi-lock"></i>

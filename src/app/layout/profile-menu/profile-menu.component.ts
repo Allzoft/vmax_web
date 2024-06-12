@@ -19,8 +19,13 @@ import { Order } from '../../interfaces/order.interface';
 import { MessagesModule } from 'primeng/messages';
 import { Router } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import {
+  DialogService,
+  DynamicDialogConfig,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
 import { ClientDialogComponent } from '../../shared/client-dialog/client-dialog.component';
+import { environment } from '../../../environments/environment';
 type VipEarningsKeys = 'vip_1_earnings' | 'vip_2_earnings' | 'vip_3_earnings';
 
 @Component({
@@ -78,12 +83,14 @@ export class ProfileMenuComponent {
 
   public copyUuid() {
     const uuid = this.user()!.uuid;
-    navigator.clipboard.writeText(uuid).then(
+    const urlAffilate = `${environment.url_public}/#/home/register/${uuid}`;
+    navigator.clipboard.writeText(urlAffilate).then(
       () => {
         this.messageService.add({
           severity: 'info',
-          summary: 'Text copiado al portapapeles',
-          detail: 'Codigo de afiliación copiado con exito',
+          summary: 'Link copiado al portapapeles',
+          detail:
+            'Link de afiliación copiado con exito, compártelo con tu afiliado',
         });
       },
       (err) => {
@@ -226,7 +233,7 @@ export class ProfileMenuComponent {
     });
   }
 
-  public showInfoUser(){
+  public showInfoUser() {
     this.ref = this.dialogService.open(ClientDialogComponent, {
       header: 'Informacion sobre el usuario',
       draggable: true,

@@ -16,6 +16,11 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/home/home.component'),
       },
       {
+        path: 'home/register/:uuid',
+        title: 'V-Max',
+        loadComponent: () => import('./pages/home/home.component'),
+      },
+      {
         path: 'orders-list',
         canActivate: [LoginGuard],
         title: 'Lista de Ordenes',

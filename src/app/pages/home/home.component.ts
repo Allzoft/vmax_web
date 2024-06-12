@@ -7,7 +7,13 @@ import { DividerModule } from 'primeng/divider';
 import { LayoutService } from '../../services/layout.service';
 import { ButtonModule } from 'primeng/button';
 import { UsersService } from '../../services/user.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  DialogService,
+  DynamicDialogConfig,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
+import { RegisterDialogComponent } from '../../shared/register-dialog/register-dialog.component';
 
 export interface Products {
   name: string;
@@ -35,6 +41,7 @@ export interface CurrentRetreats {
     FormsModule,
     CarouselModule,
   ],
+  providers: [DialogService, DynamicDialogConfig],
   templateUrl: './home.component.html',
   styles: `
   .carousel-container {
@@ -63,6 +70,11 @@ export default class HomeComponent {
   public layoutService = inject(LayoutService);
   public userService = inject(UsersService);
   public router = inject(Router);
+  private route = inject(ActivatedRoute);
+  public configRef = inject(DynamicDialogConfig);
+  public dialogService = inject(DialogService);
+
+  public ref: DynamicDialogRef | undefined;
 
   public user = this.userService.user;
   public loading = this.userService.loading;
@@ -146,6 +158,22 @@ export default class HomeComponent {
         date: this.getCurrentDate(),
       });
     }, 10200);
+
+    const uuid = this.route.snapshot.paramMap.get('uuid');
+    if (uuid) {
+      this.ref = this.dialogService.open(RegisterDialogComponent, {
+        header: 'Registro de usuario afiliado',
+        data: {
+          uuid: uuid,
+        },
+        draggable: true,
+        styleClass: 'w-11 md:w-4',
+      });
+
+      this.ref.onClose.subscribe((resUser) => {
+        this.redirectTo('home')
+      });
+    }
   }
 
   generateRandomAmount(): number {
